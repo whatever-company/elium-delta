@@ -1,0 +1,318 @@
+{
+  "module": "Delta",
+  "method": "transform",
+  "embedFixtures": [
+    {
+      "embedHandler": "delta",
+      "tests": [
+        {
+          "name": "transform an embed change with number (priority)",
+          "a": [{ "retain": 1 }],
+          "b": [{ "retain": { "delta": [{ "insert": "b" }] } }],
+          "priority": true,
+          "expected": [{ "retain": { "delta": [{ "insert": "b" }] } }]
+        },
+        {
+          "name": "transform an embed change with number (no priority)",
+          "a": [{ "retain": 1 }],
+          "b": [{ "retain": { "delta": [{ "insert": "b" }] } }],
+          "priority": false,
+          "expected": [{ "retain": { "delta": [{ "insert": "b" }] } }]
+        },
+        {
+          "name": "transform an embed change (priority)",
+          "a": [{ "retain": { "delta": [{ "insert": "a" }] } }],
+          "b": [{ "retain": { "delta": [{ "insert": "b" }] } }],
+          "priority": true,
+          "expected": [{ "retain": { "delta": [{ "retain": 1 }, { "insert": "b" }] } }]
+        },
+        {
+          "name": "transform an embed change (no priority)",
+          "a": [{ "retain": { "delta": [{ "insert": "a" }] } }],
+          "b": [{ "retain": { "delta": [{ "insert": "b" }] } }],
+          "priority": false,
+          "expected": [{ "retain": { "delta": [{ "insert": "b" }] } }]
+        }
+      ]
+    },
+    {
+      "embedHandler": "table-embed",
+      "tests": [
+        {
+          "name": "transforms a cell edit after a row move",
+          "a": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }, { "insert": { "id": "r2" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A" }] },
+                      "r2:c1": { "content": [{ "insert": "B" }] }
+                    }
+                  },
+                  "rows": {
+                    "blockDelta": [{ "retain": 1 }, { "move": { "count": 1, "before": 0 } }]
+                  }
+                }
+              }
+            }
+          ],
+          "b": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }, { "insert": { "id": "r2" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A" }] },
+                      "r2:c1": { "content": [{ "insert": "B" }] }
+                    }
+                  },
+                  "cells": {
+                    "r1:c1": {
+                      "change": {
+                        "delta": [{ "retain": 1 }, { "insert": "!" }]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "priority": true,
+          "expected": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r2" } }, { "insert": { "id": "r1" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A" }] },
+                      "r2:c1": { "content": [{ "insert": "B" }] }
+                    }
+                  },
+                  "cells": {
+                    "r1:c1": {
+                      "change": {
+                        "delta": [{ "retain": 1 }, { "insert": "!" }]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "transforms a row move after a cell edit",
+          "a": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }, { "insert": { "id": "r2" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A" }] },
+                      "r2:c1": { "content": [{ "insert": "B" }] }
+                    }
+                  },
+                  "cells": {
+                    "r1:c1": {
+                      "change": {
+                        "delta": [{ "retain": 1 }, { "insert": "!" }]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "b": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }, { "insert": { "id": "r2" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A" }] },
+                      "r2:c1": { "content": [{ "insert": "B" }] }
+                    }
+                  },
+                  "rows": {
+                    "blockDelta": [{ "retain": 1 }, { "move": { "count": 1, "before": 0 } }]
+                  }
+                }
+              }
+            }
+          ],
+          "priority": true,
+          "expected": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }, { "insert": { "id": "r2" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A!" }] },
+                      "r2:c1": { "content": [{ "insert": "B" }] }
+                    }
+                  },
+                  "rows": {
+                    "blockDelta": [{ "retain": 1 }, { "move": { "count": 1, "before": 0 } }]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "transforms concurrent cell changes with priority",
+          "a": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A" }] }
+                    }
+                  },
+                  "cells": {
+                    "r1:c1": {
+                      "change": {
+                        "delta": [{ "retain": 1 }, { "insert": "X" }]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "b": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A" }] }
+                    }
+                  },
+                  "cells": {
+                    "r1:c1": {
+                      "change": {
+                        "delta": [{ "retain": 1 }, { "insert": "Y" }]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "priority": true,
+          "expected": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "AX" }] }
+                    }
+                  },
+                  "cells": {
+                    "r1:c1": {
+                      "change": {
+                        "delta": [{ "retain": 2 }, { "insert": "Y" }]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "transforms concurrent cell changes without priority",
+          "a": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A" }] }
+                    }
+                  },
+                  "cells": {
+                    "r1:c1": {
+                      "change": {
+                        "delta": [{ "retain": 1 }, { "insert": "X" }]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "b": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A" }] }
+                    }
+                  },
+                  "cells": {
+                    "r1:c1": {
+                      "change": {
+                        "delta": [{ "retain": 1 }, { "insert": "Y" }]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "priority": false,
+          "expected": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "AX" }] }
+                    }
+                  },
+                  "cells": {
+                    "r1:c1": {
+                      "change": {
+                        "delta": [{ "retain": 1 }, { "insert": "Y" }]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

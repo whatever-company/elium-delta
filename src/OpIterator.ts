@@ -1,4 +1,4 @@
-import Op from './Op';
+import Op, { OpType } from './Op';
 
 export default class Iterator {
   ops: Op[];
@@ -23,6 +23,7 @@ export default class Iterator {
     if (nextOp) {
       const offset = this.offset;
       const opLength = Op.length(nextOp);
+      const opType = Op.type(nextOp);
       if (length >= opLength - offset) {
         length = opLength - offset;
         this.index += 1;
@@ -37,7 +38,13 @@ export default class Iterator {
         if (nextOp.attributes) {
           retOp.attributes = nextOp.attributes;
         }
-        if (typeof nextOp.retain === 'number') {
+        if (opType === 'cut') {
+          const cut = nextOp.cut!;
+          retOp.cut = { ref: cut.ref, length };
+        } else if (opType === 'paste') {
+          const paste = nextOp.paste!;
+          retOp.paste = { ...paste, start: paste.start + offset, length };
+        } else if (typeof nextOp.retain === 'number') {
           retOp.retain = length;
         } else if (
           typeof nextOp.retain === 'object' &&
@@ -71,19 +78,10 @@ export default class Iterator {
     }
   }
 
-  peekType(): string {
+  peekType(): OpType {
     const op = this.ops[this.index];
     if (op) {
-      if (typeof op.delete === 'number') {
-        return 'delete';
-      } else if (
-        typeof op.retain === 'number' ||
-        (typeof op.retain === 'object' && op.retain !== null)
-      ) {
-        return 'retain';
-      } else {
-        return 'insert';
-      }
+      return Op.type(op) || 'retain';
     }
     return 'retain';
   }

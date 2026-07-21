@@ -1,0 +1,519 @@
+{
+ "module": "Delta",
+ "method": "diff",
+ "tests": [
+  {
+   "name": "insert",
+   "a": [
+    {
+     "insert": "A"
+    }
+   ],
+   "b": [
+    {
+     "insert": "AB"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": "B"
+    }
+   ]
+  },
+  {
+   "name": "delete",
+   "a": [
+    {
+     "insert": "AB"
+    }
+   ],
+   "b": [
+    {
+     "insert": "A"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "delete": 1
+    }
+   ]
+  },
+  {
+   "name": "retain",
+   "a": [
+    {
+     "insert": "A"
+    }
+   ],
+   "b": [
+    {
+     "insert": "A"
+    }
+   ],
+   "expected": []
+  },
+  {
+   "name": "format",
+   "a": [
+    {
+     "insert": "A"
+    }
+   ],
+   "b": [
+    {
+     "insert": "A",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "name": "object attributes",
+   "a": [
+    {
+     "insert": "A",
+     "attributes": {
+      "font": {
+       "family": "Helvetica",
+       "size": "15px"
+      }
+     }
+    }
+   ],
+   "b": [
+    {
+     "insert": "A",
+     "attributes": {
+      "font": {
+       "family": "Helvetica",
+       "size": "15px"
+      }
+     }
+    }
+   ],
+   "expected": []
+  },
+  {
+   "name": "embed integer match",
+   "a": [
+    {
+     "insert": {
+      "embed": 1
+     }
+    }
+   ],
+   "b": [
+    {
+     "insert": {
+      "embed": 1
+     }
+    }
+   ],
+   "expected": []
+  },
+  {
+   "name": "embed integer mismatch",
+   "a": [
+    {
+     "insert": {
+      "embed": 1
+     }
+    }
+   ],
+   "b": [
+    {
+     "insert": {
+      "embed": 2
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "embed": 2
+     }
+    },
+    {
+     "delete": 1
+    }
+   ]
+  },
+  {
+   "name": "embed object match",
+   "a": [
+    {
+     "insert": {
+      "image": "http://quilljs.com"
+     }
+    }
+   ],
+   "b": [
+    {
+     "insert": {
+      "image": "http://quilljs.com"
+     }
+    }
+   ],
+   "expected": []
+  },
+  {
+   "name": "embed object mismatch",
+   "a": [
+    {
+     "insert": {
+      "image": "http://quilljs.com",
+      "alt": "Overwrite"
+     }
+    }
+   ],
+   "b": [
+    {
+     "insert": {
+      "image": "http://quilljs.com"
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "image": "http://quilljs.com"
+     }
+    },
+    {
+     "delete": 1
+    }
+   ]
+  },
+  {
+   "name": "embed object change",
+   "a": [
+    {
+     "insert": {
+      "image": "http://quilljs.com"
+     }
+    }
+   ],
+   "b": [
+    {
+     "insert": {
+      "image": "http://github.com"
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "image": "http://github.com"
+     }
+    },
+    {
+     "delete": 1
+    }
+   ]
+  },
+  {
+   "name": "embed false positive",
+   "a": [
+    {
+     "insert": {
+      "embed": 1
+     }
+    }
+   ],
+   "b": [
+    {
+     "insert": "\u0000"
+    }
+   ],
+   "expected": [
+    {
+     "insert": "\u0000"
+    },
+    {
+     "delete": 1
+    }
+   ]
+  },
+  {
+   "name": "custom embed without diff handler falls back to replace",
+   "a": [
+    {
+     "insert": {
+      "mydelta": [
+       {
+        "insert": "a"
+       }
+      ]
+     }
+    }
+   ],
+   "b": [
+    {
+     "insert": {
+      "mydelta": [
+       {
+        "insert": "ab"
+       }
+      ]
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "mydelta": [
+       {
+        "insert": "ab"
+       }
+      ]
+     }
+    },
+    {
+     "delete": 1
+    }
+   ]
+  },
+  {
+   "name": "inconvenient indexes",
+   "a": [
+    {
+     "insert": "12",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "34",
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "b": [
+    {
+     "insert": "123",
+     "attributes": {
+      "color": "red"
+     }
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null,
+      "color": "red"
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": null,
+      "color": "red"
+     }
+    },
+    {
+     "delete": 1
+    }
+   ]
+  },
+  {
+   "name": "combination",
+   "a": [
+    {
+     "insert": "Bad",
+     "attributes": {
+      "color": "red"
+     }
+    },
+    {
+     "insert": "cat",
+     "attributes": {
+      "color": "blue"
+     }
+    }
+   ],
+   "b": [
+    {
+     "insert": "Good",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "dog",
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "Goo",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true,
+      "color": null
+     }
+    },
+    {
+     "insert": "dog",
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "delete": 3
+    }
+   ]
+  },
+  {
+   "name": "same document",
+   "a": [
+    {
+     "insert": "A"
+    },
+    {
+     "insert": "B",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "b": [
+    {
+     "insert": "A"
+    },
+    {
+     "insert": "B",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": []
+  },
+  {
+   "name": "emoji insert",
+   "a": [
+    {
+     "insert": "A"
+    }
+   ],
+   "b": [
+    {
+     "insert": "A\ud83d\ude00"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": "\ud83d\ude00"
+    }
+   ]
+  },
+  {
+   "name": "emoji delete",
+   "a": [
+    {
+     "insert": "A\ud83d\ude00B"
+    }
+   ],
+   "b": [
+    {
+     "insert": "AB"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "delete": 2
+    }
+   ]
+  },
+  {
+   "name": "emoji retain with format",
+   "a": [
+    {
+     "insert": "\ud83d\ude00"
+    }
+   ],
+   "b": [
+    {
+     "insert": "\ud83d\ude00",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  }
+ ],
+ "errorTests": [
+  {
+   "name": "error on non-documents (a is doc, b is not)",
+   "a": [
+    {
+     "insert": "A"
+    }
+   ],
+   "b": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": "B"
+    }
+   ],
+   "error": "diff() called on non-document"
+  },
+  {
+   "name": "non-document",
+   "a": [
+    {
+     "insert": "Test"
+    }
+   ],
+   "b": [
+    {
+     "delete": 4
+    }
+   ],
+   "error": "diff() called on non-document"
+  }
+ ]
+}

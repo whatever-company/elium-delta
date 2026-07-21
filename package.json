@@ -1,12 +1,11 @@
 {
-  "name": "quill-delta",
-  "version": "5.1.0",
-  "description": "Format for representing rich text documents and changes.",
-  "author": "Jason Chen <jhchen7@gmail.com>",
-  "homepage": "https://github.com/quilljs/delta",
+  "name": "elium-delta",
+  "version": "0.0.1",
+  "description": "Rich text OT deltas with semantic cut/paste moves (quill-delta lineage).",
+  "author": "Whatever SA",
+  "homepage": "https://github.com/whatever-company/elium-delta",
   "main": "dist/Delta.js",
   "dependencies": {
-    "fast-diff": "^1.3.0",
     "lodash.clonedeep": "^4.5.0",
     "lodash.isequal": "^4.5.0"
   },
@@ -73,5 +72,9 @@
     "ot",
     "operational transform",
     "delta"
+  ],
+  "contributors": [
+    "Antoine Perdaens <a.perdaens@whatever-company.com>",
+    "Jason Chen <jhchen7@gmail.com> (original quill-delta)"
   ]
 }

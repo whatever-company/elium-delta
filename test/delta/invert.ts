@@ -66,10 +66,17 @@ describe('invert()', () => {
   describe('custom embed handler', () => {
     beforeEach(() => {
       Delta.registerEmbed<Op[]>('delta', {
-        compose: (a, b) => new Delta(a).compose(new Delta(b)).ops,
-        transform: (a, b, priority) =>
-          new Delta(a).transform(new Delta(b), priority).ops,
-        invert: (a, b) => new Delta(a).invert(new Delta(b)).ops,
+        streamPaths: () => [[]],
+        apply: (a, b, context) =>
+          new Delta(a).compose(new Delta(b), context).ops,
+        compose: (a, b, context) =>
+          new Delta(a).compose(new Delta(b), context).ops,
+        diff: (a, b, context) =>
+          new Delta(a).diff(new Delta(b), undefined, context).ops,
+        transform: (a, b, priority, context) =>
+          new Delta(a).transform(new Delta(b), priority, context).ops,
+        invert: (a, b, context) =>
+          new Delta(a).invert(new Delta(b), context).ops,
       });
     });
 

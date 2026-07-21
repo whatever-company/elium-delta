@@ -1,0 +1,195 @@
+{
+  "module": "Delta",
+  "method": "compose",
+  "embedFixtures": [
+    {
+      "embedHandler": "delta",
+      "description": "Tests requiring the 'delta' custom embed handler to be registered",
+      "tests": [
+        {
+          "name": "retain an embed with a number",
+          "a": [{ "insert": { "delta": [{ "insert": "a" }] } }],
+          "b": [{ "retain": 1, "attributes": { "bold": true } }],
+          "expected": [{ "insert": { "delta": [{ "insert": "a" }] }, "attributes": { "bold": true } }]
+        },
+        {
+          "name": "retain a number with an embed",
+          "a": [{ "retain": 10, "attributes": { "bold": true } }],
+          "b": [{ "retain": { "delta": [{ "insert": "b" }] } }],
+          "expected": [
+            { "retain": { "delta": [{ "insert": "b" }] }, "attributes": { "bold": true } },
+            { "retain": 9, "attributes": { "bold": true } }
+          ]
+        },
+        {
+          "name": "retain an embed with an embed",
+          "a": [{ "insert": { "delta": [{ "insert": "a" }] } }],
+          "b": [{ "retain": { "delta": [{ "insert": "b" }] } }],
+          "expected": [{ "insert": { "delta": [{ "insert": "ba" }] } }]
+        },
+        {
+          "name": "keeps other delete when this op is a retain",
+          "a": [{ "retain": { "delta": [{ "insert": "a" }] } }],
+          "b": [{ "insert": "\n" }, { "delete": 1 }],
+          "expected": [{ "insert": "\n" }, { "delete": 1 }]
+        }
+      ],
+      "errorTests": [
+        {
+          "name": "retain an embed with another type of embed",
+          "a": [{ "insert": { "delta": [{ "insert": "a" }] } }],
+          "b": [{ "retain": { "otherdelta": [{ "insert": "b" }] } }],
+          "error": "embed types not matched: delta != otherdelta"
+        },
+        {
+          "name": "retain a string with an embed",
+          "a": [{ "insert": "a" }],
+          "b": [{ "retain": { "delta": [{ "insert": "b" }] } }],
+          "error": "cannot retain a string"
+        }
+      ],
+      "errorTestsNoHandler": [
+        {
+          "name": "retain embeds without a handler",
+          "a": [{ "insert": { "mydelta": [{ "insert": "a" }] } }],
+          "b": [{ "retain": { "mydelta": [{ "insert": "b" }] } }],
+          "error": "no handlers for embed type \"mydelta\""
+        }
+      ]
+    },
+    {
+      "embedHandler": "table-embed",
+      "description": "Tests requiring the 'table-embed' custom embed handler to be registered",
+      "tests": [
+        {
+          "name": "applies a row move and cell edit patch to a table document",
+          "a": [
+            {
+              "insert": {
+                "table-embed": {
+                  "rows": [{ "insert": { "id": "r1" } }, { "insert": { "id": "r2" } }],
+                  "columns": [{ "insert": { "id": "c1" } }],
+                  "cells": {
+                    "r1:c1": { "content": [{ "insert": "A" }] },
+                    "r2:c1": { "content": [{ "insert": "B" }] }
+                  }
+                }
+              }
+            }
+          ],
+          "b": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }, { "insert": { "id": "r2" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A" }] },
+                      "r2:c1": { "content": [{ "insert": "B" }] }
+                    }
+                  },
+                  "rows": {
+                    "blockDelta": [{ "retain": 1 }, { "move": { "count": 1, "before": 0 } }]
+                  },
+                  "cells": {
+                    "r1:c1": {
+                      "change": {
+                        "delta": [{ "retain": 1 }, { "insert": "!" }]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "expected": [
+            {
+              "insert": {
+                "table-embed": {
+                  "rows": [{ "insert": { "id": "r2" } }, { "insert": { "id": "r1" } }],
+                  "columns": [{ "insert": { "id": "c1" } }],
+                  "cells": {
+                    "r1:c1": { "content": [{ "insert": "A!" }] },
+                    "r2:c1": { "content": [{ "insert": "B" }] }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "composes sequential table patches through nested Change",
+          "a": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }, { "insert": { "id": "r2" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A" }] },
+                      "r2:c1": { "content": [{ "insert": "B" }] }
+                    }
+                  },
+                  "rows": {
+                    "blockDelta": [{ "retain": 1 }, { "move": { "count": 1, "before": 0 } }]
+                  }
+                }
+              }
+            }
+          ],
+          "b": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r2" } }, { "insert": { "id": "r1" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A" }] },
+                      "r2:c1": { "content": [{ "insert": "B" }] }
+                    }
+                  },
+                  "cells": {
+                    "r1:c1": {
+                      "change": {
+                        "delta": [{ "retain": 1 }, { "insert": "!" }]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "expected": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }, { "insert": { "id": "r2" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A" }] },
+                      "r2:c1": { "content": [{ "insert": "B" }] }
+                    }
+                  },
+                  "rows": {
+                    "blockDelta": [{ "retain": 1 }, { "move": { "count": 1, "before": 0 } }]
+                  },
+                  "cells": {
+                    "r1:c1": {
+                      "change": {
+                        "delta": [{ "retain": 1 }, { "insert": "!" }]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

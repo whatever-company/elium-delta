@@ -1,3 +1,20 @@
+## v0.0.1 (elium-delta)
+
+- Fork as `elium-delta`: positional cut/paste move algebra with full OT
+  closure (`{cut: {ref, length}}` /
+  `{paste: {ref, start, length, change?}}`),
+  cross-level recursive moves, trash-bin reads, semantic invert, and
+  `transformCoordinate` for nested-document coordinates.
+- Separate embed-handler `apply`, `compose`, `transform`, `invert`, and
+  `diff` operations, with explicit recursive contexts and structural child
+  stream declarations.
+- Snapshot diff now uses linear-space Myers reconstruction; Delta constructors
+  and concatenation own their operation trees safely.
+- Behavior is fixture-locked to the Python reference implementation
+  (`elium-delta-py`): 1,264 golden cases under `test/fixtures/moves/`.
+- `AttributeMap.invert`: a null patch value over a missing base key now
+  inverts to a no-op.
+
 ## v5.1.0
 
 - Perform semantic cleanups for `Delta#diff()`.

@@ -1,0 +1,1513 @@
+{
+ "module": "Delta",
+ "method": "diff",
+ "embedFixtures": [
+  {
+   "embedHandler": "delta",
+   "description": "Tests requiring the 'delta' custom embed handler to be registered",
+   "tests": [
+    {
+     "name": "diffs a nested delta embed structurally",
+     "a": [
+      {
+       "insert": {
+        "delta": [
+         {
+          "insert": "a"
+         }
+        ]
+       }
+      }
+     ],
+     "b": [
+      {
+       "insert": {
+        "delta": [
+         {
+          "insert": "ab"
+         }
+        ]
+       }
+      }
+     ],
+     "expected": [
+      {
+       "retain": {
+        "delta": [
+         {
+          "retain": 1
+         },
+         {
+          "insert": "b"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "name": "diffs a nested delta embed structurally with outer attribute changes",
+     "a": [
+      {
+       "insert": {
+        "delta": [
+         {
+          "insert": "a"
+         }
+        ]
+       }
+      }
+     ],
+     "b": [
+      {
+       "insert": {
+        "delta": [
+         {
+          "insert": "ab"
+         }
+        ]
+       },
+       "attributes": {
+        "bold": true
+       }
+      }
+     ],
+     "expected": [
+      {
+       "retain": {
+        "delta": [
+         {
+          "retain": 1
+         },
+         {
+          "insert": "b"
+         }
+        ]
+       },
+       "attributes": {
+        "bold": true
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "embedHandler": "table-embed",
+   "description": "Tests requiring the 'table-embed' custom embed handler to be registered",
+   "tests": [
+    {
+     "name": "diffs table cell content through nested Change",
+     "a": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r1"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c1"
+           }
+          }
+         ],
+         "cells": {
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "b": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r1"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c1"
+           }
+          }
+         ],
+         "cells": {
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "AB"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "expected": [
+      {
+       "retain": {
+        "table-embed": {
+         "base": {
+          "rows": [
+           {
+            "insert": {
+             "id": "r1"
+            }
+           }
+          ],
+          "columns": [
+           {
+            "insert": {
+             "id": "c1"
+            }
+           }
+          ],
+          "cells": {
+           "r1:c1": {
+            "content": [
+             {
+              "insert": "A"
+             }
+            ]
+           }
+          }
+         },
+         "cells": {
+          "r1:c1": {
+           "change": {
+            "delta": [
+             {
+              "retain": 1
+             },
+             {
+              "insert": "B"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      }
+     ]
+    },
+    {
+     "name": "diffs table row move and cell content structurally",
+     "a": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r1"
+           }
+          },
+          {
+           "insert": {
+            "id": "r2"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c1"
+           }
+          }
+         ],
+         "cells": {
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A"
+            }
+           ]
+          },
+          "r2:c1": {
+           "content": [
+            {
+             "insert": "B"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "b": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r2"
+           }
+          },
+          {
+           "insert": {
+            "id": "r1"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c1"
+           }
+          }
+         ],
+         "cells": {
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A!"
+            }
+           ]
+          },
+          "r2:c1": {
+           "content": [
+            {
+             "insert": "B"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "expected": [
+      {
+       "retain": {
+        "table-embed": {
+         "base": {
+          "rows": [
+           {
+            "insert": {
+             "id": "r1"
+            }
+           },
+           {
+            "insert": {
+             "id": "r2"
+            }
+           }
+          ],
+          "columns": [
+           {
+            "insert": {
+             "id": "c1"
+            }
+           }
+          ],
+          "cells": {
+           "r1:c1": {
+            "content": [
+             {
+              "insert": "A"
+             }
+            ]
+           },
+           "r2:c1": {
+            "content": [
+             {
+              "insert": "B"
+             }
+            ]
+           }
+          }
+         },
+         "rows": {
+          "blockDelta": [
+           {
+            "retain": 1
+           },
+           {
+            "move": {
+             "count": 1,
+             "before": 0
+            }
+           }
+          ]
+         },
+         "cells": {
+          "r1:c1": {
+           "change": {
+            "delta": [
+             {
+              "retain": 1
+             },
+             {
+              "insert": "!"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      }
+     ]
+    },
+    {
+     "name": "diffs rows as delta plus block moves when insertions and reorders mix",
+     "a": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r1"
+           }
+          },
+          {
+           "insert": {
+            "id": "r2"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c1"
+           }
+          }
+         ],
+         "cells": {
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A"
+            }
+           ]
+          },
+          "r2:c1": {
+           "content": [
+            {
+             "insert": "B"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "b": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r2"
+           }
+          },
+          {
+           "insert": {
+            "id": "r0"
+           }
+          },
+          {
+           "insert": {
+            "id": "r1"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c1"
+           }
+          }
+         ],
+         "cells": {
+          "r0:c1": {
+           "content": [
+            {
+             "insert": "X"
+            }
+           ]
+          },
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A"
+            }
+           ]
+          },
+          "r2:c1": {
+           "content": [
+            {
+             "insert": "B"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "expected": [
+      {
+       "retain": {
+        "table-embed": {
+         "base": {
+          "rows": [
+           {
+            "insert": {
+             "id": "r1"
+            }
+           },
+           {
+            "insert": {
+             "id": "r2"
+            }
+           }
+          ],
+          "columns": [
+           {
+            "insert": {
+             "id": "c1"
+            }
+           }
+          ],
+          "cells": {
+           "r1:c1": {
+            "content": [
+             {
+              "insert": "A"
+             }
+            ]
+           },
+           "r2:c1": {
+            "content": [
+             {
+              "insert": "B"
+             }
+            ]
+           }
+          }
+         },
+         "rows": {
+          "delta": [
+           {
+            "retain": 1
+           },
+           {
+            "insert": "0\nr"
+           }
+          ],
+          "blockDelta": [
+           {
+            "retain": 2
+           },
+           {
+            "move": {
+             "count": 1,
+             "before": 0
+            }
+           }
+          ]
+         },
+         "cells": {
+          "r0:c1": {
+           "change": {
+            "delta": [
+             {
+              "insert": "X"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      }
+     ]
+    },
+    {
+     "name": "diffs columns as delta plus block moves when insertions and reorders mix",
+     "a": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r1"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c1"
+           }
+          },
+          {
+           "insert": {
+            "id": "c2"
+           }
+          }
+         ],
+         "cells": {
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A"
+            }
+           ]
+          },
+          "r1:c2": {
+           "content": [
+            {
+             "insert": "B"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "b": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r1"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c2"
+           }
+          },
+          {
+           "insert": {
+            "id": "c0"
+           }
+          },
+          {
+           "insert": {
+            "id": "c1"
+           }
+          }
+         ],
+         "cells": {
+          "r1:c0": {
+           "content": [
+            {
+             "insert": "X"
+            }
+           ]
+          },
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A"
+            }
+           ]
+          },
+          "r1:c2": {
+           "content": [
+            {
+             "insert": "B"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "expected": [
+      {
+       "retain": {
+        "table-embed": {
+         "base": {
+          "rows": [
+           {
+            "insert": {
+             "id": "r1"
+            }
+           }
+          ],
+          "columns": [
+           {
+            "insert": {
+             "id": "c1"
+            }
+           },
+           {
+            "insert": {
+             "id": "c2"
+            }
+           }
+          ],
+          "cells": {
+           "r1:c1": {
+            "content": [
+             {
+              "insert": "A"
+             }
+            ]
+           },
+           "r1:c2": {
+            "content": [
+             {
+              "insert": "B"
+             }
+            ]
+           }
+          }
+         },
+         "columns": {
+          "delta": [
+           {
+            "retain": 1
+           },
+           {
+            "insert": "0\nc"
+           }
+          ],
+          "blockDelta": [
+           {
+            "retain": 2
+           },
+           {
+            "move": {
+             "count": 1,
+             "before": 0
+            }
+           }
+          ]
+         },
+         "cells": {
+          "r1:c0": {
+           "change": {
+            "delta": [
+             {
+              "insert": "X"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      }
+     ]
+    },
+    {
+     "name": "diffs simultaneous row and column moves structurally",
+     "a": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r1"
+           }
+          },
+          {
+           "insert": {
+            "id": "r2"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c1"
+           }
+          },
+          {
+           "insert": {
+            "id": "c2"
+           }
+          }
+         ],
+         "cells": {
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A"
+            }
+           ]
+          },
+          "r1:c2": {
+           "content": [
+            {
+             "insert": "B"
+            }
+           ]
+          },
+          "r2:c1": {
+           "content": [
+            {
+             "insert": "C"
+            }
+           ]
+          },
+          "r2:c2": {
+           "content": [
+            {
+             "insert": "D"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "b": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r2"
+           }
+          },
+          {
+           "insert": {
+            "id": "r1"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c2"
+           }
+          },
+          {
+           "insert": {
+            "id": "c1"
+           }
+          }
+         ],
+         "cells": {
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A"
+            }
+           ]
+          },
+          "r1:c2": {
+           "content": [
+            {
+             "insert": "B"
+            }
+           ]
+          },
+          "r2:c1": {
+           "content": [
+            {
+             "insert": "C"
+            }
+           ]
+          },
+          "r2:c2": {
+           "content": [
+            {
+             "insert": "D"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "expected": [
+      {
+       "retain": {
+        "table-embed": {
+         "base": {
+          "rows": [
+           {
+            "insert": {
+             "id": "r1"
+            }
+           },
+           {
+            "insert": {
+             "id": "r2"
+            }
+           }
+          ],
+          "columns": [
+           {
+            "insert": {
+             "id": "c1"
+            }
+           },
+           {
+            "insert": {
+             "id": "c2"
+            }
+           }
+          ],
+          "cells": {
+           "r1:c1": {
+            "content": [
+             {
+              "insert": "A"
+             }
+            ]
+           },
+           "r1:c2": {
+            "content": [
+             {
+              "insert": "B"
+             }
+            ]
+           },
+           "r2:c1": {
+            "content": [
+             {
+              "insert": "C"
+             }
+            ]
+           },
+           "r2:c2": {
+            "content": [
+             {
+              "insert": "D"
+             }
+            ]
+           }
+          }
+         },
+         "rows": {
+          "blockDelta": [
+           {
+            "retain": 1
+           },
+           {
+            "move": {
+             "count": 1,
+             "before": 0
+            }
+           }
+          ]
+         },
+         "columns": {
+          "blockDelta": [
+           {
+            "retain": 1
+           },
+           {
+            "move": {
+             "count": 1,
+             "before": 0
+            }
+           }
+          ]
+         }
+        }
+       }
+      }
+     ]
+    },
+    {
+     "name": "diffs simultaneous row and column moves with a cell edit",
+     "a": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r1"
+           }
+          },
+          {
+           "insert": {
+            "id": "r2"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c1"
+           }
+          },
+          {
+           "insert": {
+            "id": "c2"
+           }
+          }
+         ],
+         "cells": {
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A"
+            }
+           ]
+          },
+          "r1:c2": {
+           "content": [
+            {
+             "insert": "B"
+            }
+           ]
+          },
+          "r2:c1": {
+           "content": [
+            {
+             "insert": "C"
+            }
+           ]
+          },
+          "r2:c2": {
+           "content": [
+            {
+             "insert": "D"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "b": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r2"
+           }
+          },
+          {
+           "insert": {
+            "id": "r1"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c2"
+           }
+          },
+          {
+           "insert": {
+            "id": "c1"
+           }
+          }
+         ],
+         "cells": {
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A!"
+            }
+           ]
+          },
+          "r1:c2": {
+           "content": [
+            {
+             "insert": "B"
+            }
+           ]
+          },
+          "r2:c1": {
+           "content": [
+            {
+             "insert": "C"
+            }
+           ]
+          },
+          "r2:c2": {
+           "content": [
+            {
+             "insert": "D"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "expected": [
+      {
+       "retain": {
+        "table-embed": {
+         "base": {
+          "rows": [
+           {
+            "insert": {
+             "id": "r1"
+            }
+           },
+           {
+            "insert": {
+             "id": "r2"
+            }
+           }
+          ],
+          "columns": [
+           {
+            "insert": {
+             "id": "c1"
+            }
+           },
+           {
+            "insert": {
+             "id": "c2"
+            }
+           }
+          ],
+          "cells": {
+           "r1:c1": {
+            "content": [
+             {
+              "insert": "A"
+             }
+            ]
+           },
+           "r1:c2": {
+            "content": [
+             {
+              "insert": "B"
+             }
+            ]
+           },
+           "r2:c1": {
+            "content": [
+             {
+              "insert": "C"
+             }
+            ]
+           },
+           "r2:c2": {
+            "content": [
+             {
+              "insert": "D"
+             }
+            ]
+           }
+          }
+         },
+         "rows": {
+          "blockDelta": [
+           {
+            "retain": 1
+           },
+           {
+            "move": {
+             "count": 1,
+             "before": 0
+            }
+           }
+          ]
+         },
+         "columns": {
+          "blockDelta": [
+           {
+            "retain": 1
+           },
+           {
+            "move": {
+             "count": 1,
+             "before": 0
+            }
+           }
+          ]
+         },
+         "cells": {
+          "r1:c1": {
+           "change": {
+            "delta": [
+             {
+              "retain": 1
+             },
+             {
+              "insert": "!"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      }
+     ]
+    },
+    {
+     "name": "diffs row attribute change plus move as delta plus blockDelta",
+     "a": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r1"
+           },
+           "attributes": {
+            "header": 1
+           }
+          },
+          {
+           "insert": {
+            "id": "r2"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c1"
+           }
+          }
+         ],
+         "cells": {
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A"
+            }
+           ]
+          },
+          "r2:c1": {
+           "content": [
+            {
+             "insert": "B"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "b": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r2"
+           }
+          },
+          {
+           "insert": {
+            "id": "r1"
+           },
+           "attributes": {
+            "header": 2
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c1"
+           }
+          }
+         ],
+         "cells": {
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A"
+            }
+           ]
+          },
+          "r2:c1": {
+           "content": [
+            {
+             "insert": "B"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "expected": [
+      {
+       "retain": {
+        "table-embed": {
+         "base": {
+          "rows": [
+           {
+            "insert": {
+             "id": "r1"
+            },
+            "attributes": {
+             "header": 1
+            }
+           },
+           {
+            "insert": {
+             "id": "r2"
+            }
+           }
+          ],
+          "columns": [
+           {
+            "insert": {
+             "id": "c1"
+            }
+           }
+          ],
+          "cells": {
+           "r1:c1": {
+            "content": [
+             {
+              "insert": "A"
+             }
+            ]
+           },
+           "r2:c1": {
+            "content": [
+             {
+              "insert": "B"
+             }
+            ]
+           }
+          }
+         },
+         "rows": {
+          "delta": [
+           {
+            "retain": 2
+           },
+           {
+            "retain": 1,
+            "attributes": {
+             "header": 2
+            }
+           }
+          ],
+          "blockDelta": [
+           {
+            "retain": 1
+           },
+           {
+            "move": {
+             "count": 1,
+             "before": 0
+            }
+           }
+          ]
+         }
+        }
+       }
+      }
+     ]
+    },
+    {
+     "name": "diffs column attribute change plus move as delta plus blockDelta",
+     "a": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r1"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c1"
+           },
+           "attributes": {
+            "width": 100
+           }
+          },
+          {
+           "insert": {
+            "id": "c2"
+           }
+          }
+         ],
+         "cells": {
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A"
+            }
+           ]
+          },
+          "r1:c2": {
+           "content": [
+            {
+             "insert": "B"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "b": [
+      {
+       "insert": {
+        "table-embed": {
+         "rows": [
+          {
+           "insert": {
+            "id": "r1"
+           }
+          }
+         ],
+         "columns": [
+          {
+           "insert": {
+            "id": "c2"
+           }
+          },
+          {
+           "insert": {
+            "id": "c1"
+           },
+           "attributes": {
+            "width": 120
+           }
+          }
+         ],
+         "cells": {
+          "r1:c1": {
+           "content": [
+            {
+             "insert": "A"
+            }
+           ]
+          },
+          "r1:c2": {
+           "content": [
+            {
+             "insert": "B"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     ],
+     "expected": [
+      {
+       "retain": {
+        "table-embed": {
+         "base": {
+          "rows": [
+           {
+            "insert": {
+             "id": "r1"
+            }
+           }
+          ],
+          "columns": [
+           {
+            "insert": {
+             "id": "c1"
+            },
+            "attributes": {
+             "width": 100
+            }
+           },
+           {
+            "insert": {
+             "id": "c2"
+            }
+           }
+          ],
+          "cells": {
+           "r1:c1": {
+            "content": [
+             {
+              "insert": "A"
+             }
+            ]
+           },
+           "r1:c2": {
+            "content": [
+             {
+              "insert": "B"
+             }
+            ]
+           }
+          }
+         },
+         "columns": {
+          "delta": [
+           {
+            "retain": 2
+           },
+           {
+            "retain": 1,
+            "attributes": {
+             "width": 120
+            }
+           }
+          ],
+          "blockDelta": [
+           {
+            "retain": 1
+           },
+           {
+            "move": {
+             "count": 1,
+             "before": 0
+            }
+           }
+          ]
+         }
+        }
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

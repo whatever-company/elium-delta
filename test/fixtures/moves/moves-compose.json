@@ -1,0 +1,11289 @@
+{
+ "tests": [
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 2,
+          "length": 1
+         }
+        },
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 3
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "expected": [
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 2,
+          "length": 1
+         }
+        },
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XXXXX"
+    },
+    {
+     "delete": 4
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XXXXX"
+    },
+    {
+     "delete": 4
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "bold": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 3,
+          "length": 1
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 4
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "bold": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 3,
+          "length": 1
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 4
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true,
+      "italic": true
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 4
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 3,
+          "length": 1
+         },
+         "attributes": {
+          "italic": true
+         }
+        },
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 4
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 3,
+          "length": 1
+         },
+         "attributes": {
+          "italic": true
+         }
+        },
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 4
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "delete": 1
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 4
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "italic": true
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": null
+         }
+        },
+        {
+         "retain": 4
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": null
+         }
+        },
+        {
+         "retain": 4
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 1
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 6
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 5
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 9
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "expected": [
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 5
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 2
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "delete": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XXXXX"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XXXXX"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 5
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 5
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 4
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": 5,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "paste": {
+      "ref": "c",
+      "start": 2,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 5
+    }
+   ],
+   "expected": [
+    {
+     "delete": 6
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "XXZ"
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "expected": [
+    {
+     "insert": "X"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "XXZ"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XXXXXX"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 3
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XXXXXX"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 3
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 2
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 4
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 4
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 8
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "delete": 3
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 5
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 5
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "expected": [
+    {
+     "delete": 2
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 1
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 5
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 1
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "retain": 5
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 5
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "expected": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 1
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "delete": 2
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     },
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 4
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 6
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     },
+     "attributes": {
+      "bold": null
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 1,
+          "length": 1
+         }
+        },
+        {
+         "retain": 2
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 1,
+          "length": 1
+         }
+        },
+        {
+         "retain": 2
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 5
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 5
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 3
+             },
+             "attributes": {
+              "bold": null
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 2
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "delete": 2
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 3
+             },
+             "attributes": {
+              "bold": null
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "delete": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     },
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "delete": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 1,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 1,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 4
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 2
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 3
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 3,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 2
+    }
+   ],
+   "expected": [
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 3,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 6
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 4
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 4
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "delete": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": "XXX"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 4
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 5
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     }
+    },
+    {
+     "retain": 8
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 1,
+          "length": 2
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 1,
+          "length": 2
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 2
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 3
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "paste": {
+          "ref": "trash",
+          "start": 0,
+          "length": 1,
+          "unit": 0,
+          "path": [
+           "ops"
+          ]
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "cut": {
+      "ref": "trash",
+      "length": 1
+     }
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 3
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 3
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": true
+         }
+        },
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": true
+         }
+        },
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 4
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 2
+    }
+   ],
+   "expected": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "XX"
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 1
+             },
+             "attributes": {
+              "bold": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "paste": {
+      "ref": "c",
+      "start": 2,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 1
+             },
+             "attributes": {
+              "bold": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 7
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 2
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "delete": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "XX"
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 3
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XXXX"
+    },
+    {
+     "retain": 3
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "expected": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XXXX"
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 4
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 5
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 8
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 6
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 1
+             },
+             "attributes": {
+              "italic": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 1
+             },
+             "attributes": {
+              "italic": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 3
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "paste": {
+          "ref": "trash",
+          "start": 1,
+          "length": 3,
+          "unit": 0,
+          "path": [
+           "ops"
+          ]
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "trash",
+      "length": 1
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 2
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 7
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2
+    },
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 5
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 2
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 5
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 3,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XXX"
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XXX"
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 3,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 4
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "delete": 2
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 4
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 4
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "delete": 4
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "trash",
+          "start": 1,
+          "length": 2,
+          "unit": 0,
+          "path": [
+           "ops"
+          ]
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 1
+    },
+    {
+     "cut": {
+      "ref": "trash",
+      "length": 1
+     }
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 3
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 3,
+          "length": 1
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 3,
+          "length": 1
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 1
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 1
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 3
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "paste": {
+      "ref": "c",
+      "start": 2,
+      "length": 2
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "italic": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "paste": {
+      "ref": "c",
+      "start": 2,
+      "length": 2
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "italic": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 4
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 2
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XXXXX"
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "expected": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XXXXX"
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "paste": {
+      "ref": "c",
+      "start": 2,
+      "length": 1
+     }
+    },
+    {
+     "retain": 7
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "bold": null
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "paste": {
+      "ref": "c",
+      "start": 2,
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "bold": null
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 5
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 4
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2
+    }
+   ],
+   "expected": [
+    {
+     "retain": 4
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 4
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "delete": 4
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2
+    }
+   ],
+   "expected": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "X"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 4
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 4
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 4
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 4
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 4
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 8
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 5
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 5
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     }
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 4
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 4
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 5
+    }
+   ],
+   "expected": [
+    {
+     "delete": 5
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "italic": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "italic": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 3,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 3
+    }
+   ],
+   "expected": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 3,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XX"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": 6
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 5
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "expected": [
+    {
+     "insert": "X"
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 4
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "Z"
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 4
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 4
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 6
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 3
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 3
+    }
+   ],
+   "expected": [
+    {
+     "retain": 3
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 3
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 5
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "delete": 2
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "expected": [
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 6
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 5
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "delete": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 5
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true,
+      "italic": true
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "XXXX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "XXXX"
+    },
+    {
+     "cut": {
+      "ref": "trash",
+      "length": 1
+     }
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "paste": {
+          "ref": "trash",
+          "start": 0,
+          "length": 2,
+          "unit": 0,
+          "path": [
+           "ops"
+          ]
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 3
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XX"
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "delete": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 3
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "X"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XXX"
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XXX"
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "cut": {
+      "ref": "trash",
+      "length": 1
+     }
+    },
+    {
+     "paste": {
+      "ref": "trash",
+      "start": 0,
+      "length": 2,
+      "unit": 0,
+      "path": [
+       "ops"
+      ]
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "paste": {
+      "ref": "c",
+      "start": 1,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "insert": "X"
+    },
+    {
+     "paste": {
+      "ref": "c",
+      "start": 1,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "XXXXXX"
+    },
+    {
+     "retain": 4
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "expected": [
+    {
+     "insert": "XXXXXX"
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 5
+    },
+    {
+     "paste": {
+      "ref": "c",
+      "start": 2,
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "XXX"
+    },
+    {
+     "delete": 4
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "XXX"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 3
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 8
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 6,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "XXXX"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 4
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 5,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "XXXX"
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "delete": 1
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 1,
+          "length": 1
+         },
+         "attributes": {
+          "italic": true
+         }
+        },
+        {
+         "retain": 3
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "XX"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 6
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 5
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 5
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 2
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "expected": [
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 1
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 3
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 5
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "retain": 3
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 5
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 2
+     }
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 14
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 6
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "delete": 2
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 6
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "delete": 1
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 3
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "insert": "X"
+    },
+    {
+     "retain": 2
+    },
+    {
+     "delete": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "Z"
+    },
+    {
+     "delete": 2
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     },
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 2
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true,
+      "italic": true
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "expected": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "delete": 1
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 5
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 4
+    }
+   ],
+   "expected": [
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 5
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": 3,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ],
+   "expected": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 3
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "Z"
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 6
+    },
+    {
+     "retain": 2
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "X"
+    },
+    {
+     "delete": 6
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "delete": 3
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "first": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "delete": 3
+    },
+    {
+     "retain": 1
+    }
+   ],
+   "expected": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "bold": null,
+      "italic": true
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "delete": 3
+    }
+   ]
+  },
+  {
+   "first": [
+    {
+     "retain": 3
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "bold": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "paste": {
+              "ref": "c",
+              "start": 2,
+              "length": 2
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "second": [
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 2
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "expected": [
+    {
+     "retain": 2,
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "XX"
+    },
+    {
+     "delete": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "bold": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "delete": 1
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "paste": {
+              "ref": "c",
+              "start": 2,
+              "length": 2
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1,
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  }
+ ]
+}

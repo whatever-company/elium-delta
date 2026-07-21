@@ -1,4 +1,5 @@
 {
   "spec_files": ["test/**/*.ts"],
-  "helpers": ["jasmine-typescript-helper.js"]
+  "helpers": ["jasmine-typescript-helper.js"],
+  "jsLoader": "require"
 }

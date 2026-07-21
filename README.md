@@ -1,11 +1,33 @@
-# Delta [![Build Status](https://github.com/quilljs/delta/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/quilljs/delta/actions?query=branch%3Amain) [![Coverage Status](https://img.shields.io/coveralls/quilljs/delta.svg)](https://coveralls.io/r/quilljs/delta)
+# elium-delta
+
+This is [Whatever SA](https://github.com/whatever-company)'s fork of
+[quill-delta](https://github.com/quilljs/delta), extended with **semantic
+cut/paste moves**: two operation types that express _moving_ content
+without buffering it.
+
+```js
+{ cut:   { ref: 'r', length: 10 } }
+{ paste: { ref: 'r', start: 0, length: 10 } }
+```
+
+A paste addresses its cut span positionally, so deltas stay closed under
+composition: an insert into a moved region splits the window, a delete
+shrinks it, a format becomes the paste's attribute patch, and the inverse
+of a move is the opposite move. Moves cross embed nesting levels
+recursively, may target freshly inserted embeds, and deleting an embed
+that still sources a move degrades to a trash-bin read. Nested-document
+coordinates transform through moves via `transformCoordinate`. See the
+`src/moves.ts` module documentation for the complete semantics.
+
+Behavior is locked to the Python reference implementation
+([elium-delta-py](https://github.com/whatever-company/elium-delta-py))
+by 1,264 golden cases under `test/fixtures/moves/`.
 
 Deltas are a simple, yet expressive format that can be used to describe contents and changes. The format is JSON based, and is human readable, yet easily parsible by machines. Deltas can describe any rich text document, includes all text and formatting information, without the ambiguity and complexity of HTML.
 
 A Delta is made up of an [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) of Operations, which describe changes to a document. They can be an [`insert`](#insert-operation), [`delete`](#delete-operation) or [`retain`](#retain-operation). Note operations do not take an index. They always describe the change at the current index. Use retains to "keep" or "skip" certain parts of the document.
 
 Don’t be confused by its name Delta&mdash;Deltas represents both documents and changes to documents. If you think of Deltas as the instructions from going from one document to another, the way Deltas represent a document is by expressing the instructions starting from an empty document.
-
 
 ## Quick Example
 
@@ -15,15 +37,16 @@ Don’t be confused by its name Delta&mdash;Deltas represents both documents and
 const delta = new Delta([
   { insert: 'Gandalf', attributes: { bold: true } },
   { insert: ' the ' },
-  { insert: 'Grey', attributes: { color: '#ccc' } }
+  { insert: 'Grey', attributes: { color: '#ccc' } },
 ]);
 
 // Change intended to be applied to above:
 // Keep the first 12 characters, insert a white 'White'
 // and delete the next four characters ('Grey')
-const death = new Delta().retain(12)
-                         .insert('White', { color: '#fff' })
-                         .delete(4);
+const death = new Delta()
+  .retain(12)
+  .insert('White', { color: '#fff' })
+  .delete(4);
 // {
 //   ops: [
 //     { retain: 12 },
@@ -41,13 +64,11 @@ const restored = delta.compose(death);
 //     { insert: 'White', attributes: { color: '#fff' } }
 //   ]
 // }
-
 ```
 
 This README describes Deltas in its general form and API functionality. Additional information on the way Quill specifically uses Deltas can be found on its own [Delta docs](http://quilljs.com/docs/delta/). A walkthough of the motivation and design thinking behind Deltas are on [Designing the Delta Format](http://quilljs.com/guides/designing-the-delta-format/).
 
 This format is suitable for [Operational Transform](https://en.wikipedia.org/wiki/Operational_transformation) and defines several functions to support this use case.
-
 
 ## Contents
 
@@ -56,6 +77,8 @@ This format is suitable for [Operational Transform](https://en.wikipedia.org/wik
 - [`insert`](#insert-operation)
 - [`delete`](#delete-operation)
 - [`retain`](#retain-operation)
+- [`cut`](#cut-operation)
+- [`paste`](#paste-operation)
 
 #### Construction
 
@@ -63,6 +86,8 @@ This format is suitable for [Operational Transform](https://en.wikipedia.org/wik
 - [`insert`](#insert)
 - [`delete`](#delete)
 - [`retain`](#retain)
+- [`cut`](#cut)
+- [`paste`](#paste)
 
 #### Documents
 
@@ -88,7 +113,7 @@ These methods called on or with non-document Deltas will result in undefined beh
 - [`compose`](#compose)
 - [`transform`](#transform)
 - [`transformPosition`](#transformposition)
-
+- [`transformCoordinate`](#transformcoordinate)
 
 ## Operations
 
@@ -134,7 +159,7 @@ Delete operations have a Number `delete` key defined representing the number of 
 
 Retain operations have a Number `retain` key defined representing the number of characters to keep (other libraries might use the name keep or skip). An optional `attributes` key can be defined with an Object to describe formatting changes to the character range. A value of `null` in the `attributes` Object represents removal of that key.
 
-*Note: It is not necessary to retain the last characters of a document as this is implied.*
+_Note: It is not necessary to retain the last characters of a document as this is implied._
 
 ```js
 // Keep the next 5 characters
@@ -149,6 +174,40 @@ Retain operations have a Number `retain` key defined representing the number of 
 { retain: 5, attributes: { bold: null } }
 ```
 
+### Cut Operation
+
+Cut operations consume `length` characters of the document — like a
+delete — and remember the removed span under a transaction-local `ref`.
+Every ref has exactly one cut, and a cut whose ref is never pasted
+degrades to a plain delete.
+
+```js
+// Cut the next 10 characters, remembering them as 'r'
+{ cut: { ref: 'r', length: 10 } }
+```
+
+### Paste Operation
+
+Paste operations produce `length` characters starting at `start`
+_within the span remembered by `ref`_ — a window into the cut. Windows
+of one ref must be pairwise disjoint (a move, not a copy) and fit
+inside their cut. An optional `attributes` key applies a retain-style
+patch on top of whatever formatting the content carries, and a paste of
+a single embed may carry `change`, an embed patch applied at paste time.
+
+Because a paste addresses its source positionally, deltas stay closed
+under composition: an insert into a pasted span splits the window, a
+delete shrinks it, and a format becomes the paste's attribute patch.
+
+```js
+// Paste the full span remembered as 'r'
+{ paste: { ref: 'r', start: 0, length: 10 } }
+
+// Paste it in two windows around an insertion, bolding the second
+{ paste: { ref: 'r', start: 0, length: 2 } }
+{ insert: 'x' }
+{ paste: { ref: 'r', start: 2, length: 8 }, attributes: { bold: true } }
+```
 
 ## Construction
 
@@ -167,14 +226,18 @@ Creates a new Delta object.
 - `ops` - Array of operations
 - `delta` - Object with an `ops` key set to an array of operations
 
-*Note: No validity/sanity check is performed when constructed with ops or delta. The new delta's internal ops array will also be assigned from ops or delta.ops without deep copying.*
+No validity check is performed by the constructor. It does deep-copy the
+operation tree, however, so later mutation of the source array, an operation,
+or a nested embed value cannot mutate the Delta. Algebra methods likewise do
+not run move validation automatically; call `Delta.check(delta)` explicitly
+at an untrusted boundary.
 
 #### Example
 
 ```js
 const delta = new Delta([
   { insert: 'Hello World' },
-  { insert: '!', attributes: { bold: true }}
+  { insert: '!', attributes: { bold: true } },
 ]);
 
 const packet = JSON.stringify(delta);
@@ -249,6 +312,83 @@ Appends a retain operation. Returns `this` for chainability.
 delta.retain(4).retain(5, { color: '#0c6' });
 ```
 
+---
+
+### cut()
+
+Appends a cut operation. Returns `this` for chainability.
+
+#### Methods
+
+- `cut(ref, length)`
+
+#### Parameters
+
+- `ref` - Transaction-local name for the cut span
+- `length` - Number of characters to cut
+
+#### Example
+
+```js
+delta.cut('r', 6);
+```
+
+---
+
+### paste()
+
+Appends a paste operation. Returns `this` for chainability.
+
+#### Methods
+
+- `paste(ref, start, length, change, attributes)`
+
+#### Parameters
+
+- `ref` - Name of the cut to paste from
+- `start` - Offset of the window inside the cut span
+- `length` - Number of characters to paste
+- `change` - Optional retain-style change applied to a length-one embed
+- `attributes` - Optional attributes to apply to the pasted content
+
+#### Example
+
+```js
+// Move "Hello " to the end of "Hello World"
+new Delta().cut('m', 6).retain(5).paste('m', 0, 6);
+```
+
+### registerEmbed()
+
+Registers the structural algebra for one anonymous embed type. Value and
+change types may differ. A handler implements five distinct operations:
+
+```ts
+interface EmbedHandler<Value, Change> {
+  streamPaths?(value: Value | Change): Iterable<readonly (string | number)[]>;
+  apply(value: Value, change: Change, context: ComposeContext): Value;
+  compose(first: Change, second: Change, context: ComposeContext): Change;
+  transform(
+    first: Change,
+    second: Change,
+    priority: boolean,
+    context: TransformContext,
+  ): Change;
+  invert(change: Change, base: Value, context: InvertContext): Change;
+  diff(base: Value, target: Value, context: DiffContext): Change;
+}
+```
+
+`streamPaths` declares operation lists structurally owned by the embed. Paths
+are relative to the embed payload; `[]` means the payload itself is a Delta
+operation list. The move walker visits only declared paths, leaving arbitrary
+JSON metadata opaque.
+
+When a handler recursively calls `compose`, `transform`, `invert`, or `diff`
+on a child Delta, it must forward the context it received. That explicit,
+operation-specific context lets one cut/paste transaction cross cells and
+nesting levels without ambient state or persistent embed IDs.
+
 ## Documents
 
 ### concat()
@@ -273,7 +413,6 @@ Returns a new Delta representing the concatenation of this and another document 
 const a = new Delta().insert('Hello');
 const b = new Delta().insert('!', { bold: true });
 
-
 // {
 //   ops: [
 //     { insert: 'Hello' },
@@ -287,7 +426,7 @@ const concat = a.concat(b);
 
 ### diff()
 
-Returns a Delta representing the difference between two documents. Optionally, accepts a suggested index where change took place, often representing a cursor position *before* change.
+Returns a Delta representing the difference between two documents. Optionally, accepts a suggested index where change took place, often representing a cursor position _before_ change.
 
 #### Methods
 
@@ -309,9 +448,8 @@ Returns a Delta representing the difference between two documents. Optionally, a
 const a = new Delta().insert('Hello');
 const b = new Delta().insert('Hello!');
 
-const diff = a.diff(b);  // { ops: [{ retain: 5 }, { insert: '!' }] }
-                         // a.compose(diff) == b
-
+const diff = a.diff(b); // { ops: [{ retain: 5 }, { insert: '!' }] }
+// a.compose(diff) == b
 ```
 
 ---
@@ -332,11 +470,12 @@ Iterates through document Delta, calling a given function with a Delta and attri
 #### Example
 
 ```js
-const delta = new Delta().insert('Hello\n\n')
-                         .insert('World')
-                         .insert({ image: 'octocat.png' })
-                         .insert('\n', { align: 'right' })
-                         .insert('!');
+const delta = new Delta()
+  .insert('Hello\n\n')
+  .insert('World')
+  .insert({ image: 'octocat.png' })
+  .insert('\n', { align: 'right' })
+  .insert('!');
 
 delta.eachLine((line, attributes, i) => {
   console.log(line, attributes, i);
@@ -370,18 +509,16 @@ Returned an inverted delta that has the opposite effect of against a base docume
 #### Example
 
 ```js
-const base = new Delta().insert('Hello\n')
-                        .insert('World');
+const base = new Delta().insert('Hello\n').insert('World');
 const delta = new Delta().retain(6, { bold: true }).insert('!').delete(5);
 
-const inverted = delta.invert(base);  // { ops: [
-                                      //   { retain: 6, attributes: { bold: null } },
-                                      //   { insert: 'World' },
-                                      //   { delete: 1 }
-                                      // ]}
-                                      // base.compose(delta).compose(inverted) === base
+const inverted = delta.invert(base); // { ops: [
+//   { retain: 6, attributes: { bold: null } },
+//   { insert: 'World' },
+//   { delete: 1 }
+// ]}
+// base.compose(delta).compose(inverted) === base
 ```
-
 
 ## Utility
 
@@ -404,9 +541,10 @@ Returns an array of operations that passes a given function.
 #### Example
 
 ```js
-const delta = new Delta().insert('Hello', { bold: true })
-                         .insert({ image: 'https://octodex.github.com/images/labtocat.png' })
-                         .insert('World!');
+const delta = new Delta()
+  .insert('Hello', { bold: true })
+  .insert({ image: 'https://octodex.github.com/images/labtocat.png' })
+  .insert('World!');
 
 const text = delta
   .filter((op) => typeof op.insert === 'string')
@@ -449,7 +587,7 @@ Returns length of a Delta, which is the sum of the lengths of its operations.
 #### Example
 
 ```js
-new Delta().insert('Hello').length();  // Returns 5
+new Delta().insert('Hello').length(); // Returns 5
 
 new Delta().insert('A').retain(2).delete(1).length(); // Returns 4
 ```
@@ -475,9 +613,10 @@ Returns a new array with the results of calling provided function on each operat
 #### Example
 
 ```js
-const delta = new Delta().insert('Hello', { bold: true })
-                         .insert({ image: 'https://octodex.github.com/images/labtocat.png' })
-                         .insert('World!');
+const delta = new Delta()
+  .insert('Hello', { bold: true })
+  .insert({ image: 'https://octodex.github.com/images/labtocat.png' })
+  .insert('World!');
 
 const text = delta
   .map((op) => {
@@ -511,14 +650,15 @@ Create an array of two arrays, the first with operations that pass the given fun
 #### Example
 
 ```js
-const delta = new Delta().insert('Hello', { bold: true })
-                         .insert({ image: 'https://octodex.github.com/images/labtocat.png' })
-                         .insert('World!');
+const delta = new Delta()
+  .insert('Hello', { bold: true })
+  .insert({ image: 'https://octodex.github.com/images/labtocat.png' })
+  .insert('World!');
 
 const results = delta.partition((op) => typeof op.insert === 'string');
-const passed = results[0];  // [{ insert: 'Hello', attributes: { bold: true }},
-                            //  { insert: 'World'}]
-const failed = results[1];  // [{ insert: { image: 'https://octodex.github.com/images/labtocat.png' }}]
+const passed = results[0]; // [{ insert: 'Hello', attributes: { bold: true }},
+//  { insert: 'World'}]
+const failed = results[1]; // [{ insert: { image: 'https://octodex.github.com/images/labtocat.png' }}]
 ```
 
 ---
@@ -589,7 +729,6 @@ const world = delta.slice(6);
 const space = delta.slice(5, 6);
 ```
 
-
 ## Operational Transform
 
 ### compose()
@@ -610,8 +749,7 @@ Returns a Delta that is equivalent to applying the operations of own Delta, foll
 const a = new Delta().insert('abc');
 const b = new Delta().retain(1).delete(1);
 
-const composed = a.compose(b);  // composed == new Delta().insert('ac');
-
+const composed = a.compose(b); // composed == new Delta().insert('ac');
 ```
 
 ---
@@ -641,7 +779,7 @@ Transform given Delta against own operations.
 const a = new Delta().insert('a');
 const b = new Delta().insert('b').retain(5).insert('c');
 
-a.transform(b, true);  // new Delta().retain(1).insert('b').retain(5).insert('c');
+a.transform(b, true); // new Delta().retain(1).insert('b').retain(5).insert('c');
 a.transform(b, false); // new Delta().insert('b').retain(6).insert('c');
 ```
 
@@ -669,4 +807,39 @@ Transform an index against the delta. Useful for representing cursor/selection p
 const delta = new Delta().retain(5).insert('a');
 delta.transformPosition(4); // 4
 delta.transformPosition(5); // 6
+```
+
+---
+
+### transformCoordinate()
+
+Transform a nested-document coordinate against a delta. A coordinate
+addresses a position through embed levels — `[5]` is a caret at root
+offset 5, `[2, 'ops', 3]` a caret at offset 3 inside the child sequence
+at payload key `ops` of the embed at position 2. Carets shift with
+inserts and deletes, follow content that a move relocates — across
+sequence levels, in either direction, including trash reads — and
+collapse to the removal point when their span is deleted. Embed units
+return `null` when the unit was deleted.
+
+#### Methods
+
+- `transformCoordinate(delta, coordinate, priority = false)`
+
+#### Parameters
+
+- `delta` - the delta to transform through
+- `coordinate` - array of offsets and payload keys
+
+#### Returns
+
+- transformed coordinate array, or `null` for a deleted unit
+
+#### Example
+
+```js
+import { transformCoordinate } from 'elium-delta';
+
+const move = new Delta().cut('m', 5).retain(6).paste('m', 0, 5);
+transformCoordinate(move, [2]); // caret follows the moved content
 ```

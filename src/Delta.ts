@@ -1,66 +1,72 @@
-import * as diff from 'fast-diff';
 import cloneDeep = require('lodash.clonedeep');
 import isEqual = require('lodash.isequal');
 import AttributeMap from './AttributeMap';
 import Op from './Op';
 import OpIterator from './OpIterator';
+import {
+  EmbedHandler,
+  ComposeContext,
+  DiffContext,
+  InvertContext,
+  TransformContext,
+  composeDelta,
+  diffContext,
+  transformDelta,
+  invertDelta,
+  lowerDelta,
+  registerEmbed,
+  unregisterEmbed,
+  getHandler,
+  inputLength,
+  outputLength,
+  check,
+  hasMoves,
+} from './moves';
+import { snapshotDiff, snapshotDiffAt } from './diff';
 
 const NULL_CHARACTER = String.fromCharCode(0); // Placeholder char for embed in diff()
-
-interface EmbedHandler<T> {
-  compose(a: T, b: T, keepNull: boolean): T;
-  invert(a: T, b: T): T;
-  transform(a: T, b: T, priority: boolean): T;
-}
-
-const getEmbedTypeAndData = (
-  a: Op['insert'] | Op['retain'],
-  b: Op['insert'],
-): [string, unknown, unknown] => {
-  if (typeof a !== 'object' || a === null) {
-    throw new Error(`cannot retain a ${typeof a}`);
-  }
-  if (typeof b !== 'object' || b === null) {
-    throw new Error(`cannot retain a ${typeof b}`);
-  }
-  const embedType = Object.keys(a)[0];
-  if (!embedType || embedType !== Object.keys(b)[0]) {
-    throw new Error(
-      `embed types not matched: ${embedType} != ${Object.keys(b)[0]}`,
-    );
-  }
-  return [embedType, a[embedType], b[embedType]];
-};
 
 class Delta {
   static Op = Op;
   static OpIterator = OpIterator;
   static AttributeMap = AttributeMap;
-  private static handlers: { [embedType: string]: EmbedHandler<unknown> } = {};
 
-  static registerEmbed<T>(embedType: string, handler: EmbedHandler<T>): void {
-    this.handlers[embedType] = handler;
+  static registerEmbed<Value, Change = Value>(
+    embedType: string,
+    handler: EmbedHandler<Value, Change>,
+  ): void {
+    registerEmbed(embedType, handler);
   }
 
   static unregisterEmbed(embedType: string): void {
-    delete this.handlers[embedType];
+    unregisterEmbed(embedType);
   }
 
-  private static getHandler(embedType: string): EmbedHandler<unknown> {
-    const handler = this.handlers[embedType];
-    if (!handler) {
-      throw new Error(`no handlers for embed type "${embedType}"`);
-    }
-    return handler;
+  static getHandler(embedType: string): EmbedHandler<unknown> {
+    return getHandler(embedType);
+  }
+
+  static check<T extends { ops: Op[] }>(delta: T): T {
+    return check(delta);
+  }
+
+  static hasMoves(delta: { ops: Op[] }): boolean {
+    return hasMoves(delta);
+  }
+
+  /** @internal Transfer an operation list that has no external owner. */
+  static _fromOwnedOps(ops: Op[]): Delta {
+    const delta = new Delta();
+    delta.ops = ops;
+    return delta;
   }
 
   ops: Op[];
   constructor(ops?: Op[] | { ops: Op[] }) {
-    // Assume we are given a well formed ops
     if (Array.isArray(ops)) {
-      this.ops = ops;
+      this.ops = cloneDeep(ops);
     } else if (ops != null && Array.isArray(ops.ops)) {
-      this.ops = ops.ops;
+      this.ops = cloneDeep(ops.ops);
     } else {
       this.ops = [];
     }
@@ -110,7 +116,69 @@ class Delta {
     return this.push(newOp);
   }
 
+  cut(ref: string, length: number): this {
+    if (length <= 0) {
+      return this;
+    }
+    return this.push({ cut: { ref, length } });
+  }
+
+  paste(
+    ref: string,
+    start: number,
+    length: number,
+    change?: Record<string, unknown> | null,
+    attributes?: AttributeMap | null,
+  ): this {
+    if (length <= 0) {
+      return this;
+    }
+    const newOp: Op = { paste: { ref, start, length } };
+    if (change != null) {
+      if (length !== 1) {
+        throw new Error('a paste change must address one embed');
+      }
+      newOp.paste!.change = change;
+    }
+    if (
+      attributes != null &&
+      typeof attributes === 'object' &&
+      Object.keys(attributes).length > 0
+    ) {
+      newOp.attributes = attributes;
+    }
+    return this.push(newOp);
+  }
+
   push(newOp: Op): this {
+    if (this.ops.length > 0) {
+      const lastOp = this.ops[this.ops.length - 1];
+      // adjacent windows of one paste merge back together
+      if (Op.type(newOp) === 'paste' && Op.type(lastOp) === 'paste') {
+        const last = lastOp.paste!;
+        const next = newOp.paste!;
+        if (
+          last.ref === next.ref &&
+          last.start + last.length === next.start &&
+          !('change' in last) &&
+          !('change' in next) &&
+          isEqual(last.path, next.path) &&
+          last.unit === next.unit &&
+          isEqual(lastOp.attributes, newOp.attributes)
+        ) {
+          last.length += next.length;
+          return this;
+        }
+      }
+      if (
+        Op.type(newOp) === 'cut' &&
+        Op.type(lastOp) === 'cut' &&
+        lastOp.cut!.ref === newOp.cut!.ref
+      ) {
+        lastOp.cut!.length += newOp.cut!.length;
+        return this;
+      }
+    }
     let index = this.ops.length;
     let lastOp = this.ops[index - 1];
     newOp = cloneDeep(newOp);
@@ -199,14 +267,21 @@ class Delta {
     return this.ops.reduce(predicate, initialValue);
   }
 
+  // A move counts once: its cut and its paste cancel out.
   changeLength(): number {
     return this.reduce((length, elem) => {
-      if (elem.insert) {
-        return length + Op.length(elem);
-      } else if (elem.delete) {
-        return length - elem.delete;
+      switch (Op.type(elem)) {
+        case 'delete':
+          return length - elem.delete!;
+        case 'cut':
+          return length - elem.cut!.length;
+        case 'insert':
+          return length + Op.length(elem);
+        case 'paste':
+          return length + elem.paste!.length;
+        default:
+          return length;
       }
-      return length;
     }, 0);
   }
 
@@ -214,6 +289,17 @@ class Delta {
     return this.reduce((length, elem) => {
       return length + Op.length(elem);
     }, 0);
+  }
+
+  document(): string {
+    return this.map((op) => {
+      if (op.insert != null || op.insert === '') {
+        return typeof op.insert === 'string' ? op.insert : NULL_CHARACTER;
+      }
+      throw new Error(
+        'document() can only be called on Deltas that have only insert ops',
+      );
+    }).join('');
   }
 
   slice(start = 0, end = Infinity): Delta {
@@ -230,167 +316,36 @@ class Delta {
       }
       index += Op.length(nextOp);
     }
-    return new Delta(ops);
+    return Delta._fromOwnedOps(ops);
   }
 
-  compose(other: Delta): Delta {
-    const thisIter = new OpIterator(this.ops);
-    const otherIter = new OpIterator(other.ops);
-    const ops = [];
-    const firstOther = otherIter.peek();
-    if (
-      firstOther != null &&
-      typeof firstOther.retain === 'number' &&
-      firstOther.attributes == null
-    ) {
-      let firstLeft = firstOther.retain;
-      while (
-        thisIter.peekType() === 'insert' &&
-        thisIter.peekLength() <= firstLeft
-      ) {
-        firstLeft -= thisIter.peekLength();
-        ops.push(thisIter.next());
-      }
-      if (firstOther.retain - firstLeft > 0) {
-        otherIter.next(firstOther.retain - firstLeft);
-      }
-    }
-    const delta = new Delta(ops);
-    while (thisIter.hasNext() || otherIter.hasNext()) {
-      if (otherIter.peekType() === 'insert') {
-        delta.push(otherIter.next());
-      } else if (thisIter.peekType() === 'delete') {
-        delta.push(thisIter.next());
-      } else {
-        const length = Math.min(thisIter.peekLength(), otherIter.peekLength());
-        const thisOp = thisIter.next(length);
-        const otherOp = otherIter.next(length);
-        if (otherOp.retain) {
-          const newOp: Op = {};
-          if (typeof thisOp.retain === 'number') {
-            newOp.retain =
-              typeof otherOp.retain === 'number' ? length : otherOp.retain;
-          } else {
-            if (typeof otherOp.retain === 'number') {
-              if (thisOp.retain == null) {
-                newOp.insert = thisOp.insert;
-              } else {
-                newOp.retain = thisOp.retain;
-              }
-            } else {
-              const action = thisOp.retain == null ? 'insert' : 'retain';
-              const [embedType, thisData, otherData] = getEmbedTypeAndData(
-                thisOp[action],
-                otherOp.retain,
-              );
-              const handler = Delta.getHandler(embedType);
-              newOp[action] = {
-                [embedType]: handler.compose(
-                  thisData,
-                  otherData,
-                  action === 'retain',
-                ),
-              };
-            }
-          }
-          // Preserve null when composing with a retain, otherwise remove it for inserts
-          const attributes = AttributeMap.compose(
-            thisOp.attributes,
-            otherOp.attributes,
-            typeof thisOp.retain === 'number',
-          );
-          if (attributes) {
-            newOp.attributes = attributes;
-          }
-          delta.push(newOp);
-
-          // Optimization if rest of other is just retain
-          if (
-            !otherIter.hasNext() &&
-            isEqual(delta.ops[delta.ops.length - 1], newOp)
-          ) {
-            const rest = new Delta(thisIter.rest());
-            return delta.concat(rest).chop();
-          }
-
-          // Other op should be delete, we could be an insert or retain
-          // Insert + delete cancels out
-        } else if (
-          typeof otherOp.delete === 'number' &&
-          (typeof thisOp.retain === 'number' ||
-            (typeof thisOp.retain === 'object' && thisOp.retain !== null))
-        ) {
-          delta.push(otherOp);
-        }
-      }
-    }
-    return delta.chop();
+  compose(other: Delta, _context?: ComposeContext): Delta {
+    return composeDelta(this, other, _context);
   }
 
   concat(other: Delta): Delta {
-    const delta = new Delta(this.ops.slice());
+    const delta = Delta._fromOwnedOps(cloneDeep(this.ops));
     if (other.ops.length > 0) {
       delta.push(other.ops[0]);
-      delta.ops = delta.ops.concat(other.ops.slice(1));
+      delta.ops = delta.ops.concat(cloneDeep(other.ops.slice(1)));
     }
     return delta;
   }
 
-  diff(other: Delta, cursor?: number | diff.CursorInfo): Delta {
-    if (this.ops === other.ops) {
-      return new Delta();
+  /**
+   * Deterministic typed snapshot diff between two *documents* (Deltas
+   * with only insert ops): retains, inserts, deletes and embed-retain
+   * patches only — never cut/paste.  `cursor` is an optional caret hint
+   * (a base-document UTF-16 position) anchoring an ambiguous edit where
+   * the editor actually made it.  See src/diff.ts for the atom model
+   * and alignment policy.
+   */
+  diff(other: Delta, cursor?: number, _context?: DiffContext): Delta {
+    const context = diffContext(_context);
+    if (cursor === undefined) {
+      return snapshotDiff(this, other, context);
     }
-    const strings = [this, other].map((delta) => {
-      return delta
-        .map((op) => {
-          if (op.insert != null) {
-            return typeof op.insert === 'string' ? op.insert : NULL_CHARACTER;
-          }
-          const prep = delta === other ? 'on' : 'with';
-          throw new Error('diff() called ' + prep + ' non-document');
-        })
-        .join('');
-    });
-    const retDelta = new Delta();
-    const diffResult = diff(strings[0], strings[1], cursor, true);
-    const thisIter = new OpIterator(this.ops);
-    const otherIter = new OpIterator(other.ops);
-    diffResult.forEach((component: diff.Diff) => {
-      let length = component[1].length;
-      while (length > 0) {
-        let opLength = 0;
-        switch (component[0]) {
-          case diff.INSERT:
-            opLength = Math.min(otherIter.peekLength(), length);
-            retDelta.push(otherIter.next(opLength));
-            break;
-          case diff.DELETE:
-            opLength = Math.min(length, thisIter.peekLength());
-            thisIter.next(opLength);
-            retDelta.delete(opLength);
-            break;
-          case diff.EQUAL:
-            opLength = Math.min(
-              thisIter.peekLength(),
-              otherIter.peekLength(),
-              length,
-            );
-            const thisOp = thisIter.next(opLength);
-            const otherOp = otherIter.next(opLength);
-            if (isEqual(thisOp.insert, otherOp.insert)) {
-              retDelta.retain(
-                opLength,
-                AttributeMap.diff(thisOp.attributes, otherOp.attributes),
-              );
-            } else {
-              retDelta.push(otherOp).delete(opLength);
-            }
-            break;
-        }
-        length -= opLength;
-      }
-    });
-    return retDelta.chop();
+    return snapshotDiffAt(this, other, cursor, context);
   }
 
   eachLine(
@@ -431,143 +386,115 @@ class Delta {
     }
   }
 
-  invert(base: Delta): Delta {
-    const inverted = new Delta();
-    this.reduce((baseIndex, op) => {
-      if (op.insert) {
-        inverted.delete(Op.length(op));
-      } else if (typeof op.retain === 'number' && op.attributes == null) {
-        inverted.retain(op.retain);
-        return baseIndex + op.retain;
-      } else if (op.delete || typeof op.retain === 'number') {
-        const length = (op.delete || op.retain) as number;
-        const slice = base.slice(baseIndex, baseIndex + length);
-        slice.forEach((baseOp) => {
-          if (op.delete) {
-            inverted.push(baseOp);
-          } else if (op.retain && op.attributes) {
-            inverted.retain(
-              Op.length(baseOp),
-              AttributeMap.invert(op.attributes, baseOp.attributes),
-            );
-          }
-        });
-        return baseIndex + length;
-      } else if (typeof op.retain === 'object' && op.retain !== null) {
-        const slice = base.slice(baseIndex, baseIndex + 1);
-        const baseOp = new OpIterator(slice.ops).next();
-        const [embedType, opData, baseOpData] = getEmbedTypeAndData(
-          op.retain,
-          baseOp.insert,
-        );
-        const handler = Delta.getHandler(embedType);
-        inverted.retain(
-          { [embedType]: handler.invert(opData, baseOpData) },
-          AttributeMap.invert(op.attributes, baseOp.attributes),
-        );
-        return baseIndex + 1;
-      }
-      return baseIndex;
-    }, 0);
-    return inverted.chop();
+  invert(base: Delta, _context?: InvertContext): Delta {
+    return invertDelta(this, base, _context);
+  }
+
+  /**
+   * Rewrite moves as plain deletes, inserts and embed changes against a
+   * concrete document, at every nesting level.
+   */
+  lower(base: Delta): Delta {
+    return lowerDelta(this, base);
   }
 
   transform(index: number, priority?: boolean): number;
-  transform(other: Delta, priority?: boolean): Delta;
-  transform(arg: number | Delta, priority = false): typeof arg {
+  transform(
+    other: Delta,
+    priority?: boolean,
+    _context?: TransformContext,
+  ): Delta;
+  transform(
+    arg: number | Delta,
+    priority = false,
+    _context?: TransformContext,
+  ): typeof arg {
     priority = !!priority;
     if (typeof arg === 'number') {
       return this.transformPosition(arg, priority);
     }
-    const other: Delta = arg;
-    const thisIter = new OpIterator(this.ops);
-    const otherIter = new OpIterator(other.ops);
-    const delta = new Delta();
-    while (thisIter.hasNext() || otherIter.hasNext()) {
-      if (
-        thisIter.peekType() === 'insert' &&
-        (priority || otherIter.peekType() !== 'insert')
-      ) {
-        delta.retain(Op.length(thisIter.next()));
-      } else if (otherIter.peekType() === 'insert') {
-        delta.push(otherIter.next());
-      } else {
-        const length = Math.min(thisIter.peekLength(), otherIter.peekLength());
-        const thisOp = thisIter.next(length);
-        const otherOp = otherIter.next(length);
-        if (thisOp.delete) {
-          // Our delete either makes their delete redundant or removes their retain
-          continue;
-        } else if (otherOp.delete) {
-          delta.push(otherOp);
-        } else {
-          const thisData = thisOp.retain;
-          const otherData = otherOp.retain;
-          let transformedData: Op['retain'] =
-            typeof otherData === 'object' && otherData !== null
-              ? otherData
-              : length;
-          if (
-            typeof thisData === 'object' &&
-            thisData !== null &&
-            typeof otherData === 'object' &&
-            otherData !== null
-          ) {
-            const embedType = Object.keys(thisData)[0];
-            if (embedType === Object.keys(otherData)[0]) {
-              const handler = Delta.getHandler(embedType);
-              if (handler) {
-                transformedData = {
-                  [embedType]: handler.transform(
-                    thisData[embedType],
-                    otherData[embedType],
-                    priority,
-                  ),
-                };
-              }
-            }
-          }
-
-          // We retain either their retain or insert
-          delta.retain(
-            transformedData,
-            AttributeMap.transform(
-              thisOp.attributes,
-              otherOp.attributes,
-              priority,
-            ),
-          );
-        }
-      }
-    }
-    return delta.chop();
+    return transformDelta(this, arg, priority, _context);
   }
 
+  /**
+   * Map a position through this delta.
+   *
+   * A position strictly inside moved content follows it to the covering
+   * paste window; a position at the region's start, or over content
+   * that is cut but never pasted, stays at the source like a deletion.
+   */
   transformPosition(index: number, priority = false): number {
     priority = !!priority;
-    const thisIter = new OpIterator(this.ops);
-    let offset = 0;
-    while (thisIter.hasNext() && offset <= index) {
-      const length = thisIter.peekLength();
-      const nextType = thisIter.peekType();
-      thisIter.next();
-      if (nextType === 'delete') {
-        index -= Math.min(length, index - offset);
-        continue;
-      } else if (nextType === 'insert' && (offset < index || !priority)) {
-        index += length;
+    let inputPosition = 0;
+    let followed: [string, number] | null = null;
+    for (const operation of this.ops) {
+      if (Op.type(operation) === 'cut') {
+        const offset = index - inputPosition;
+        if (0 < offset && offset < operation.cut!.length) {
+          followed = [operation.cut!.ref, offset];
+        }
       }
-      offset += length;
+      inputPosition += inputLength(operation);
     }
-    return index;
+    if (followed !== null) {
+      const [ref, offset] = followed;
+      let outputPosition = 0;
+      for (const operation of this.ops) {
+        if (Op.type(operation) === 'paste' && operation.paste!.ref === ref) {
+          const spec = operation.paste!;
+          if (spec.start <= offset && offset < spec.start + spec.length) {
+            return outputPosition + offset - spec.start;
+          }
+        }
+        outputPosition += outputLength(operation);
+      }
+    }
+    let position = index;
+    let passed = 0;
+    for (const operation of this.ops) {
+      if (passed > position) {
+        break;
+      }
+      const kind = Op.type(operation);
+      const length = Op.length(operation);
+      if (kind === 'delete' || kind === 'cut') {
+        position -= Math.min(length, position - passed);
+      } else if (kind === 'insert' || kind === 'paste') {
+        if (passed < position || !priority) {
+          position += length;
+        }
+        passed += length;
+      } else {
+        passed += length;
+      }
+    }
+    return position;
   }
 }
 
 export default Delta;
 
-export { Op, OpIterator, AttributeMap };
+export { Op, OpIterator, AttributeMap, check, hasMoves };
+export type {
+  ComposeContext,
+  DiffContext,
+  EmbedHandler,
+  InvertContext,
+  TransformContext,
+} from './moves';
+// Re-exported last: coords imports Delta back, so its module must load
+// only once Delta's exports are fully populated.
+export { transformCoordinate } from './coords';
 
 if (typeof module === 'object') {
   module.exports = Delta;
   module.exports.default = Delta;
+  module.exports.check = check;
+  module.exports.hasMoves = hasMoves;
+  // `module.exports = Delta` replaces the named exports emitted by tsc. Keep
+  // the public coordinate API available from the package entry point too.
+  // The require is deliberately lazy: coords imports Delta back.
+  module.exports.transformCoordinate =
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    (require('./coords') as typeof import('./coords')).transformCoordinate;
 }

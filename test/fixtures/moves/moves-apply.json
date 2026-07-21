@@ -1,0 +1,9473 @@
+{
+ "tests": [
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 2,
+          "length": 1
+         }
+        },
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hoel"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "B",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "ACD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "fada"
+    },
+    {
+     "insert": "ge",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "bold": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 3,
+          "length": 1
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "insert": "da",
+             "attributes": {
+              "bold": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "insert": "e",
+         "attributes": {
+          "italic": true,
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "fa"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "d",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "3.png"
+     }
+    },
+    {
+     "insert": "cda",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "image": "3.png"
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "d",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "a",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "d",
+     "attributes": {
+      "italic": true,
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 4
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 3,
+          "length": 1
+         },
+         "attributes": {
+          "italic": true
+         }
+        },
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "l",
+         "attributes": {
+          "italic": true
+         }
+        },
+        {
+         "insert": "oHe"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "\ud83d\ude00\ud83d\ude00\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 4
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "\ud83d\ude00\ud83d\ude00\ude00\ud83d"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "aa"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "ghh\ud83d\ude00",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "3.png"
+     }
+    },
+    {
+     "insert": "dfcg",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "hh\ud83d\ude00",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "aa"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "g",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "3.png"
+     }
+    },
+    {
+     "insert": "dfcg",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": null
+         }
+        },
+        {
+         "retain": 4
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "oHell"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "aeg",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "aeca\ud83d\ude00\ud83d\ude00f"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 6
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 5
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "aeg",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "aca\ud83d\ude00\ud83de\ude00f"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "A"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "HeBllo"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "e"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "gbeb"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "g\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "c\ud83d\ude00\ud83d\ude00bb"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "ee"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "e"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "g"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "g\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "c\ud83d"
+        },
+        {
+         "insert": "beb",
+         "attributes": {
+          "italic": true
+         }
+        },
+        {
+         "insert": "\ude00\ud83d\ude00bb"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "ee"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "haa",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "ead"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 5
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "haa",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "e"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "a"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "d"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "\ud83d\ude00cag"
+    },
+    {
+     "insert": "a",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "ag"
+    },
+    {
+     "insert": "a",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "\ud83d\ude00c"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "eag"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "d"
+    }
+   ],
+   "delta": [
+    {
+     "paste": {
+      "ref": "c",
+      "start": 2,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "e"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "a",
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "d"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "image": "2.png"
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "fc\ud83d\ude00c\ud83d\ude00"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "f"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "\ud83d"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "c\ude00c\ud83d\ude00"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "\ud83d\ude00"
+    },
+    {
+     "insert": "cf",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "cf\ud83d\ude00"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "egbg",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "g\ud83d\ude00c"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 4
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "e",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "g\ud83d"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "insert": "gbg",
+             "attributes": {
+              "bold": true
+             }
+            },
+            {
+             "insert": {
+              "image": "2.png"
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "\ude00c"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "fg\ud83d\ude00e"
+    },
+    {
+     "insert": "ded",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "geef"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 8
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "fg\ud83d\ude00e"
+    },
+    {
+     "insert": "ded",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "insert": "e",
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "gef"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "bb"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "cg\ud83d\ude00"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "cc"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "f\ud83d\ude00g"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "bd\ud83d\ude00"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "bb"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "cf\ud83dg\ud83d\ude00"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "cc"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "\ude00g"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "bd\ud83d\ude00"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "B"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CDA"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 5
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "HelloD"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "C"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "beabd"
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "\ud83d\ude00bgh"
+    }
+   ],
+   "delta": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "retain": 5
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "be",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "bd"
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "\ud83d\ude00abgh"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "b"
+    },
+    {
+     "insert": {
+      "image": "3.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "b"
+    },
+    {
+     "insert": {
+      "image": "3.png"
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "fggh"
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "fg"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "xgh"
+        },
+        {
+         "insert": {
+          "image": "2.png"
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "gec",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "ghee"
+    },
+    {
+     "insert": "dh\ud83d\ude00",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     },
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "ge",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "e"
+    },
+    {
+     "insert": "dh",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "cghe"
+    },
+    {
+     "attributes": {
+      "bold": true
+     },
+     "insert": "\ud83d\ude00"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 1,
+          "length": 1
+         }
+        },
+        {
+         "retain": 2
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "lHelo"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "HelABlo"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "gdgdeb"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "g"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "xd"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "gdeb"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "a"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "ba\ud83d\ude00gg"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "d\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "gahg"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "b"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "a"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "ba\ud83dg"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "d\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "g\ude00gahg"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "b"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "He"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CDllo"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "fgg\ud83d\ude00",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "c\ud83d\ude00"
+    },
+    {
+     "insert": "h",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "gg"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 5
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 3
+             },
+             "attributes": {
+              "bold": null
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "fgg\ud83d\ude00h",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "g"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "xc\ud83d\ude00"
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "g"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "\ud83d\ude00b"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "d"
+    },
+    {
+     "insert": "gbb",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "\ud83d"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "d",
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "\ude00b"
+    },
+    {
+     "insert": "gbb",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "hfcgdaga"
+    },
+    {
+     "insert": {
+      "image": "4.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     },
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "hfcgdaga"
+    },
+    {
+     "insert": {
+      "image": "4.png"
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "ch"
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "ch"
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "fhbd\ud83d\ude00fa"
+    },
+    {
+     "insert": "d",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "f\ud83d\ude00fa"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "hbd",
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "d",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "ef"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "ef"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "image": "1.png"
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "b\ud83d\ude00db"
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "bhf"
+    },
+    {
+     "insert": {
+      "image": "4.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 1,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x\ude00"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "b\ud83d"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "d"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "b"
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "bhf"
+    },
+    {
+     "insert": {
+      "image": "4.png"
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "dd",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "bfhbc"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 4
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "dd",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "b"
+    },
+    {
+     "insert": "fhbc",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "dgadcabhb"
+    },
+    {
+     "insert": {
+      "image": "3.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 3
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 3,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "dga"
+    },
+    {
+     "insert": "h",
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "dcab"
+    },
+    {
+     "insert": {
+      "image": "3.png"
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "CDHello"
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hel"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CloD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "aa\ud83d\ude00"
+    },
+    {
+     "insert": "efh",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "f\ud83d\ude00\ud83d\ude00hadh"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 6
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "aa"
+    },
+    {
+     "insert": "fh",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "f\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "insert": "\ud83d\ude00e",
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "\ud83d\ude00hadh"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "b\ud83d\ude00fe"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "egcf",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "abagbb"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 5
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     }
+    },
+    {
+     "retain": 8
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "b\ud83d\ude00fegbb"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "egcf",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "aba"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "\ud83d\ude00\ud83d\ude00g"
+    },
+    {
+     "insert": "hh",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "dggh"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 1,
+          "length": 2
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "\ud83d"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "insert": "h",
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "\ude00\ud83d\ude00gggh"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "insert": "hd",
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "A",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "CDB"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "bf"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "eaedf"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "f"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "c\ud83d\ude00ge"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "fc"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "bf"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "eae"
+        },
+        {
+         "insert": "c",
+         "attributes": {
+          "bold": true
+         }
+        },
+        {
+         "insert": "df"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "f"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "\ud83d\ude00ge"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "fc"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "a"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "hfg"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "e"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "eag"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "de"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "a"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "h"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "e"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "efgag"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "de"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": true
+         }
+        },
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "ell",
+         "attributes": {
+          "bold": true
+         }
+        },
+        {
+         "insert": "Ho"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "edbefed\ud83d\ude00ac"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "ed"
+    },
+    {
+     "insert": "f",
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "bed\ud83d\ude00"
+    },
+    {
+     "insert": "e",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "ac"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "e\ud83d\ude00ac"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "\ude00",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "ace"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "eea\ud83d\ude00dgg",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 1
+             },
+             "attributes": {
+              "bold": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "paste": {
+      "ref": "c",
+      "start": 2,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "e\ude00dg",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "insert": "e",
+             "attributes": {
+              "bold": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "\ud83dg",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "decdce"
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "hgahcb"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 7
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "dec"
+    },
+    {
+     "insert": "d",
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "e"
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "hgahc"
+    },
+    {
+     "insert": "c",
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "b"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "chdg\ud83d\ude00e"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 3
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "chd"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "g",
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "\ud83d\ude00e"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "fhgfg\ud83d\ude00ggh"
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 4
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "g\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "fhgf"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "ggh"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "gh"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "\ud83d\ude00\ud83d\ude00b"
+    },
+    {
+     "insert": "\ud83d\ude00",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 6
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 1
+             },
+             "attributes": {
+              "italic": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "gh"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "\ud83d\ude00\ud83db"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "insert": "\ude00",
+             "attributes": {
+              "italic": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "\ud83d\ude00",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "fda"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "aggeh"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "a"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "fhb\ud83d\ude00"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "ba"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "fda"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "agghb\ud83deh"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "a"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "f\ude00"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "ba"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "hd"
+    },
+    {
+     "insert": "eh\ud83d\ude00",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "3.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "4.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 2
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 7
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "image": "3.png"
+         },
+         "attributes": {
+          "italic": true
+         }
+        },
+        {
+         "insert": {
+          "image": "4.png"
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "hd"
+    },
+    {
+     "insert": "eh\ud83d\ude00",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "He"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "lloCD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "g",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "cc"
+    },
+    {
+     "insert": "c",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "g",
+         "attributes": {
+          "bold": true
+         }
+        },
+        {
+         "insert": "c"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "c"
+    },
+    {
+     "insert": "c",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "\ud83d\ude00",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "dcbag"
+    },
+    {
+     "insert": "dd",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     }
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 3,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "dcbag"
+    },
+    {
+     "insert": "dd",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "\ud83d\ude00d"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "fa"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "cfe"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "\ud83d\ude00fee"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "d"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 4
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "\ud83d\ude00d"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": []
+      }
+     }
+    },
+    {
+     "insert": "cfe"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "\ud83d\ude00fefae"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "d"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "\ud83d\ude00bf"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "bchg"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "fb"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "bcaad"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "gbb"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 4
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "\ud83d\ude00bf"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "ca",
+         "attributes": {
+          "italic": true
+         }
+        },
+        {
+         "insert": "bchg"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "fb"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "bad"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "gbb"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "cde"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 3
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "cde"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "f\ud83d\ude00fc"
+    }
+   ],
+   "delta": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 3,
+          "length": 1
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x\ud83d\ude00f"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "c",
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "f"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "fd"
+    }
+   ],
+   "delta": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 1
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "d"
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "f"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "acfbg"
+    }
+   ],
+   "delta": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "fbg",
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "ac"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "echc",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "paste": {
+      "ref": "c",
+      "start": 2,
+      "length": 2
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "italic": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "hc",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "insert": "ec",
+             "attributes": {
+              "italic": true,
+              "bold": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "febc\ud83d\ude00b"
+    },
+    {
+     "insert": "hbabe",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 4
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 2
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "feb\ude00b"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "xc\ud83d"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "hbabe",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "\ud83d\ude00cbh\ud83d\ude00",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "ggg"
+    }
+   ],
+   "delta": [
+    {
+     "paste": {
+      "ref": "c",
+      "start": 2,
+      "length": 1
+     }
+    },
+    {
+     "retain": 7
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "bold": null
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "g"
+    },
+    {
+     "insert": "\ud83d\ude00cbh\ud83d\ude00",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "xgg"
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "g"
+    },
+    {
+     "insert": "eheg",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "acec"
+    }
+   ],
+   "delta": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 5
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "c"
+    },
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "g"
+    },
+    {
+     "insert": "ehe",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "ec"
+    },
+    {
+     "insert": "ga",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "bh",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "dgdfg\ud83d\ude00"
+    },
+    {
+     "insert": "ad",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "bh",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "ddgfg\ud83d\ude00"
+    },
+    {
+     "insert": "ad",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "HeAB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "llo"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hel"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "loCD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "ff\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "hh"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "bc"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "ehbga"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "de"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 4
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 4
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "ff\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "h"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "bc"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "ehbg"
+        },
+        {
+         "insert": "h",
+         "attributes": {
+          "bold": true
+         }
+        },
+        {
+         "insert": "a"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "de"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 4
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "B"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "HellAo"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "h",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "ehgcc\ud83d\ude00agbegh"
+    },
+    {
+     "insert": {
+      "image": "4.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 8
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 2,
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "h",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "ehgcc\ud83d\ude00gbaegh"
+    },
+    {
+     "insert": {
+      "image": "4.png"
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "A"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "C"
+    },
+    {
+     "insert": "B",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "D"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "d\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "hg"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "eeb"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "be"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "aa"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "d\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "h"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "eeb"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "b"
+        },
+        {
+         "insert": "g",
+         "attributes": {
+          "bold": true
+         }
+        },
+        {
+         "insert": "e"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "aa"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "bb"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "\ud83d\ude00dg"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "ceg"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "ha"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "g"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "bb"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "\ud83d"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "ceg"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "\ude00dg",
+         "attributes": {
+          "bold": true
+         }
+        },
+        {
+         "insert": "ha"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "g"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 4
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 4
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "heba"
+    },
+    {
+     "insert": "a",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "cd"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "italic": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "he"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "insert": "ba",
+             "attributes": {
+              "italic": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "a",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "cd"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "g"
+    },
+    {
+     "insert": "ce\ud83d\ude00a",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 3,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "a"
+    },
+    {
+     "insert": "e",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "g"
+    },
+    {
+     "insert": "c",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "ffh"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "insert": "ffh",
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "df",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "ddhhd"
+    },
+    {
+     "insert": "gdb",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": 6
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 1,
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "ddhhd"
+    },
+    {
+     "insert": "g",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "d"
+    },
+    {
+     "insert": "dbf",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "ddba"
+    },
+    {
+     "insert": "gd",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 4
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "d"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "insert": "dbag",
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "attributes": {
+      "bold": true
+     },
+     "insert": "d"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "fghc",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "e"
+    },
+    {
+     "insert": {
+      "image": "3.png"
+     }
+    },
+    {
+     "insert": "efba",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 6
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 3
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "fghc",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "e"
+    },
+    {
+     "insert": "b",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": {
+              "image": "3.png"
+             }
+            },
+            {
+             "insert": "ef",
+             "attributes": {
+              "bold": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "attributes": {
+      "bold": true
+     },
+     "insert": "a"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "eb"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "ahg"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "fh"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "g\ud83d\ude00df"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "hf"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 5
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "eb"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "a"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "fh"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "g\ud83d\ude00dfhg"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "hf"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "\ud83d\ude00d",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "b"
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "d",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "\ud83d\ude00",
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "b"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "fdd",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "df\ud83d\ude00e"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 6
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "fd",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "df\ud83d\ude00e"
+    },
+    {
+     "insert": "d",
+     "attributes": {
+      "italic": true,
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "f\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "cf"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "da"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "eceea"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "ce"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 2
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "f\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": []
+      }
+     }
+    },
+    {
+     "insert": "da"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "eccfeea"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "ce"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "bh"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "eb"
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "eb"
+    },
+    {
+     "insert": "bh",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     },
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "ABell"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Ho"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "llo"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "HeCD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "g\ud83d\ude00eg"
+    }
+   ],
+   "delta": [
+    {
+     "paste": {
+      "ref": "c",
+      "start": 1,
+      "length": 1
+     },
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 2
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "\ud83d",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "g"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "eg"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "bbh\ud83d\ude00e",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "bh",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "b",
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "attributes": {
+      "bold": true
+     },
+     "insert": "\ud83d\ude00e"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "eca",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "dh\ud83d\ude00bce"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 5
+    },
+    {
+     "paste": {
+      "ref": "c",
+      "start": 2,
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "eca",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "dhe\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "bc"
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "\ud83d\ude00dad"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "bbfe"
+    },
+    {
+     "insert": "\ud83d\ude00agf",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 8
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "\ud83d\ude00dad"
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "bb"
+    },
+    {
+     "insert": "\ud83d\ude00ag",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "fe"
+    },
+    {
+     "attributes": {
+      "bold": true
+     },
+     "insert": "f"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "r",
+          "start": 1,
+          "length": 1
+         },
+         "attributes": {
+          "italic": true
+         }
+        },
+        {
+         "retain": 3
+        },
+        {
+         "cut": {
+          "ref": "r",
+          "length": 2
+         }
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "o",
+         "attributes": {
+          "italic": true
+         }
+        },
+        {
+         "insert": "Hell"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "c",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "hb\ud83d\ude00h\ud83d\ude00\ud83d\ude00"
+    },
+    {
+     "insert": "hcec",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "4.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 6
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 5
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "c",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "hb\ud83d\ude00h"
+    },
+    {
+     "insert": "cec",
+     "attributes": {
+      "italic": true,
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "4.png"
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "\ud83d\ude00\ud83d\ude00"
+    },
+    {
+     "insert": "h",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "gfb"
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "bold": null
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "fbg"
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "bdgf"
+    },
+    {
+     "insert": "gac",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "hbb",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 3
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "bold": null
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 5
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 3
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "bdg"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "xhbb"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "f"
+    },
+    {
+     "insert": "gac",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "B"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "HAello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "gecebb"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "bbgece"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "gggghfc"
+    },
+    {
+     "insert": "ddfd",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "gca\ud83d\ude00"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 1
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 14
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "g"
+    },
+    {
+     "insert": "\ude00",
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "ggghfc"
+    },
+    {
+     "insert": "ddfd",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "gca\ud83d"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "ahge"
+    },
+    {
+     "insert": "hg",
+     "attributes": {
+      "bold": true
+     }
+    }
+   ],
+   "delta": [
+    {
+     "retain": 3
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "ahg"
+    },
+    {
+     "insert": "hg",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "e",
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "ceehe"
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 3
+     }
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 3
+     },
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "cee",
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": "he"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 3
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 2
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "HelABlo"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 1
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 1
+     }
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 5
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 1
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "A"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "HelloB"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "b"
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "eaegh"
+    }
+   ],
+   "delta": [
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 4
+     },
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "cut": {
+      "ref": "r",
+      "length": 4
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "eaeg",
+     "attributes": {
+      "italic": true
+     }
+    },
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": "b"
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "h"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "e\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "bf"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "\ud83d\ude00b"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "hhg"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "de"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "retain": 1
+        },
+        {
+         "paste": {
+          "ref": "r",
+          "start": 0,
+          "length": 3
+         },
+         "attributes": {
+          "italic": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 3
+    },
+    {
+     "retain": {
+      "cell": {
+       "ops": [
+        {
+         "cut": {
+          "ref": "r",
+          "length": 3
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "e\ud83d\ude00"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "b"
+        },
+        {
+         "insert": "hhg",
+         "attributes": {
+          "italic": true
+         }
+        },
+        {
+         "insert": "f"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "\ud83d\ude00b"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": []
+      }
+     }
+    },
+    {
+     "insert": "de"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": {
+      "image": "0.png"
+     }
+    },
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "ehhg"
+    },
+    {
+     "insert": {
+      "image": "3.png"
+     }
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "c",
+      "length": 1
+     }
+    },
+    {
+     "retain": 4
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "paste": {
+          "ref": "c",
+          "start": 0,
+          "length": 1
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": {
+      "image": "1.png"
+     }
+    },
+    {
+     "insert": "ehh"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "x"
+        },
+        {
+         "insert": {
+          "image": "0.png"
+         },
+         "attributes": {
+          "bold": true
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "g"
+    },
+    {
+     "insert": {
+      "image": "3.png"
+     }
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "cehb",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "be\ud83d\ude00bceh"
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "r",
+      "length": 2
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "r",
+      "start": 0,
+      "length": 2
+     },
+     "attributes": {
+      "italic": true
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "hb",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "ce",
+     "attributes": {
+      "italic": true,
+      "bold": true
+     }
+    },
+    {
+     "insert": "be\ud83d\ude00bceh"
+    }
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "chhfb",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": {
+      "image": "2.png"
+     }
+    },
+    {
+     "insert": "gbafg"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 3
+    },
+    {
+     "cut": {
+      "ref": "c",
+      "length": 4
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "paste": {
+              "ref": "c",
+              "start": 0,
+              "length": 2
+             },
+             "attributes": {
+              "bold": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "paste": {
+              "ref": "c",
+              "start": 2,
+              "length": 2
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "chh",
+     "attributes": {
+      "bold": true
+     }
+    },
+    {
+     "insert": "b"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": "x"
+            },
+            {
+             "insert": "fb",
+             "attributes": {
+              "bold": true
+             }
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "af"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": {
+          "cell": {
+           "ops": [
+            {
+             "insert": {
+              "image": "2.png"
+             }
+            },
+            {
+             "insert": "g"
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "g"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "AB"
+    },
+    {
+     "insert": {
+      "cell": {
+       "ops": [
+        {
+         "insert": "Hello"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "insert": "CD"
+    }
+   ],
+   "delta": [
+    {
+     "retain": 2
+    },
+    {
+     "cut": {
+      "ref": "trash",
+      "length": 1
+     }
+    },
+    {
+     "retain": 1
+    },
+    {
+     "paste": {
+      "ref": "trash",
+      "unit": 0,
+      "path": [
+       "ops"
+      ],
+      "start": 1,
+      "length": 3
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "ABCellD"
+    }
+   ],
+   "handlers": [
+    "cell"
+   ]
+  },
+  {
+   "doc": [
+    {
+     "insert": "a\ud83d\ude00b"
+    }
+   ],
+   "delta": [
+    {
+     "cut": {
+      "ref": "m",
+      "length": 1
+     }
+    },
+    {
+     "retain": 2
+    },
+    {
+     "paste": {
+      "ref": "m",
+      "start": 0,
+      "length": 1
+     }
+    }
+   ],
+   "expected": [
+    {
+     "insert": "\ud83d\ude00ab"
+    }
+   ]
+  }
+ ]
+}

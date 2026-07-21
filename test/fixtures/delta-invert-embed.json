@@ -1,0 +1,164 @@
+{
+  "module": "Delta",
+  "method": "invert",
+  "embedFixtures": [
+    {
+      "embedHandler": "delta",
+      "tests": [
+        {
+          "name": "invert a normal change",
+          "delta": [{ "retain": 1, "attributes": { "bold": true } }],
+          "base": [{ "insert": { "delta": [{ "insert": "a" }] } }],
+          "expected": [{ "retain": 1, "attributes": { "bold": null } }],
+          "verifyRoundTrip": true
+        },
+        {
+          "name": "invert an embed change",
+          "delta": [{ "retain": { "delta": [{ "insert": "b" }] } }],
+          "base": [{ "insert": { "delta": [{ "insert": "a" }] } }],
+          "expected": [{ "retain": { "delta": [{ "delete": 1 }] } }],
+          "verifyRoundTrip": true
+        },
+        {
+          "name": "invert an embed change with numbers",
+          "delta": [
+            { "retain": 1 },
+            { "retain": 1, "attributes": { "bold": true } },
+            { "retain": { "delta": [{ "insert": "b" }] } }
+          ],
+          "base": [
+            { "insert": "\n\n" },
+            { "insert": { "delta": [{ "insert": "a" }] } }
+          ],
+          "expected": [
+            { "retain": 1 },
+            { "retain": 1, "attributes": { "bold": null } },
+            { "retain": { "delta": [{ "delete": 1 }] } }
+          ],
+          "verifyRoundTrip": true
+        },
+        {
+          "name": "respects base attributes",
+          "delta": [
+            { "delete": 1 },
+            { "retain": 1, "attributes": { "header": 2 } },
+            { "retain": { "delta": [{ "insert": "b" }] }, "attributes": { "padding": 10, "margin": 0 } }
+          ],
+          "base": [
+            { "insert": "\n" },
+            { "insert": "\n", "attributes": { "header": 1 } },
+            { "insert": { "delta": [{ "insert": "a" }] }, "attributes": { "margin": 10 } }
+          ],
+          "expected": [
+            { "insert": "\n" },
+            { "retain": 1, "attributes": { "header": 1 } },
+            { "retain": { "delta": [{ "delete": 1 }] }, "attributes": { "padding": null, "margin": 10 } }
+          ],
+          "verifyRoundTrip": true
+        },
+        {
+          "name": "works with multiple embeds",
+          "delta": [
+            { "retain": 1 },
+            { "retain": { "delta": [{ "delete": 1 }] } },
+            { "retain": { "delta": [{ "delete": 1 }] } }
+          ],
+          "base": [
+            { "insert": "\n" },
+            { "insert": { "delta": [{ "insert": "a" }] } },
+            { "insert": { "delta": [{ "insert": "b" }] } }
+          ],
+          "expected": [
+            { "retain": 1 },
+            { "retain": { "delta": [{ "insert": "a" }] } },
+            { "retain": { "delta": [{ "insert": "b" }] } }
+          ],
+          "verifyRoundTrip": true
+        }
+      ],
+      "errorTests": [
+        {
+          "name": "invert a string",
+          "delta": [{ "retain": { "delta": [{ "insert": "a" }] } }],
+          "base": [{ "insert": "a" }],
+          "error": "cannot retain a string"
+        }
+      ]
+    },
+    {
+      "embedHandler": "table-embed",
+      "tests": [
+        {
+          "name": "inverts a mixed row move and cell edit patch",
+          "delta": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r1" } }, { "insert": { "id": "r2" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A" }] },
+                      "r2:c1": { "content": [{ "insert": "B" }] }
+                    }
+                  },
+                  "rows": {
+                    "blockDelta": [{ "retain": 1 }, { "move": { "count": 1, "before": 0 } }]
+                  },
+                  "cells": {
+                    "r1:c1": {
+                      "change": {
+                        "delta": [{ "retain": 1 }, { "insert": "!" }]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "base": [
+            {
+              "insert": {
+                "table-embed": {
+                  "rows": [{ "insert": { "id": "r1" } }, { "insert": { "id": "r2" } }],
+                  "columns": [{ "insert": { "id": "c1" } }],
+                  "cells": {
+                    "r1:c1": { "content": [{ "insert": "A" }] },
+                    "r2:c1": { "content": [{ "insert": "B" }] }
+                  }
+                }
+              }
+            }
+          ],
+          "expected": [
+            {
+              "retain": {
+                "table-embed": {
+                  "base": {
+                    "rows": [{ "insert": { "id": "r2" } }, { "insert": { "id": "r1" } }],
+                    "columns": [{ "insert": { "id": "c1" } }],
+                    "cells": {
+                      "r1:c1": { "content": [{ "insert": "A!" }] },
+                      "r2:c1": { "content": [{ "insert": "B" }] }
+                    }
+                  },
+                  "rows": {
+                    "blockDelta": [{ "retain": 1 }, { "move": { "count": 1, "before": 0 } }]
+                  },
+                  "cells": {
+                    "r1:c1": {
+                      "change": {
+                        "delta": [{ "retain": 1 }, { "delete": 1 }]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "verifyRoundTrip": true
+        }
+      ]
+    }
+  ]
+}

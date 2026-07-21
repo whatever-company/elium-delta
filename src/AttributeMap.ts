@@ -67,7 +67,8 @@ namespace AttributeMap {
       return memo;
     }, {});
     return Object.keys(attr).reduce<AttributeMap>((memo, key) => {
-      if (attr[key] !== base[key] && base[key] === undefined) {
+      // a null patch value over a missing base key is already a no-op
+      if (attr[key] != null && base[key] === undefined) {
         memo[key] = null;
       }
       return memo;

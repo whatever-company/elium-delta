@@ -121,11 +121,16 @@ describe('diff()', () => {
     const b = new Delta()
       .insert('Good', { bold: true })
       .insert('dog', { italic: true });
+    // the shared 'd' is retained (with the attribute patch) instead of
+    // rewriting both words wholesale
     const expected = new Delta()
-      .insert('Good', { bold: true })
+      .insert('Goo', { bold: true })
+      .delete(2)
+      .retain(1, { bold: true, color: null })
       .insert('dog', { italic: true })
-      .delete(6);
+      .delete(3);
     expect(a.diff(b)).toEqual(expected);
+    expect(a.compose(a.diff(b))).toEqual(b);
   });
 
   it('same document', () => {
