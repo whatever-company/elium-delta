@@ -80,13 +80,14 @@ class Delta {
     if (typeof arg === 'string' && arg.length === 0) {
       return this;
     }
-    newOp.insert = arg;
+    // Builders own their caller's payloads; push itself stores by reference.
+    newOp.insert = typeof arg === 'string' ? arg : cloneDeep(arg);
     if (
       attributes != null &&
       typeof attributes === 'object' &&
       Object.keys(attributes).length > 0
     ) {
-      newOp.attributes = attributes;
+      newOp.attributes = cloneDeep(attributes);
     }
     return this.push(newOp);
   }
@@ -105,13 +106,15 @@ class Delta {
     if (typeof length === 'number' && length <= 0) {
       return this;
     }
-    const newOp: Op = { retain: length };
+    const newOp: Op = {
+      retain: typeof length === 'number' ? length : cloneDeep(length),
+    };
     if (
       attributes != null &&
       typeof attributes === 'object' &&
       Object.keys(attributes).length > 0
     ) {
-      newOp.attributes = attributes;
+      newOp.attributes = cloneDeep(attributes);
     }
     return this.push(newOp);
   }
@@ -138,14 +141,14 @@ class Delta {
       if (length !== 1) {
         throw new Error('a paste change must address one embed');
       }
-      newOp.paste!.change = change;
+      newOp.paste!.change = cloneDeep(change);
     }
     if (
       attributes != null &&
       typeof attributes === 'object' &&
       Object.keys(attributes).length > 0
     ) {
-      newOp.attributes = attributes;
+      newOp.attributes = cloneDeep(attributes);
     }
     return this.push(newOp);
   }
@@ -166,7 +169,12 @@ class Delta {
           last.unit === next.unit &&
           isEqual(lastOp.attributes, newOp.attributes)
         ) {
-          last.length += next.length;
+          // Stored ops may be shared with caller-provided graphs, so merge by
+          // replacement instead of mutating the retained window in place.
+          this.ops[this.ops.length - 1] = {
+            ...lastOp,
+            paste: { ...last, length: last.length + next.length },
+          };
           return this;
         }
       }
@@ -175,13 +183,23 @@ class Delta {
         Op.type(lastOp) === 'cut' &&
         lastOp.cut!.ref === newOp.cut!.ref
       ) {
-        lastOp.cut!.length += newOp.cut!.length;
+        this.ops[this.ops.length - 1] = {
+          ...lastOp,
+          cut: {
+            ref: lastOp.cut!.ref,
+            length: lastOp.cut!.length + newOp.cut!.length,
+          },
+        };
         return this;
       }
     }
     let index = this.ops.length;
     let lastOp = this.ops[index - 1];
-    newOp = cloneDeep(newOp);
+    // Ops are treated as immutable values throughout the algebra: iterator
+    // slices and merges always build replacement objects, so pushed ops can be
+    // stored by reference. Deep-cloning here made every compose/apply copy
+    // complete retained embed payloads and turned document-level operations
+    // O(document) instead of O(change).
     if (typeof lastOp === 'object') {
       if (
         typeof newOp.delete === 'number' &&
